@@ -1,5 +1,5 @@
 
-public class main {
+public class monthlyBudget {
 	class Node{
 		double amount; // This will store the money value of the transaction.
 		String transDescription; // A short explanation by user
