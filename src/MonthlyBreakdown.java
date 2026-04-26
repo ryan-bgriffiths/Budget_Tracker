@@ -119,13 +119,13 @@ public class MonthlyBreakdown {
 				System.out.printf("\n\t%s\n", "  1. January");
 				System.out.printf("\t%s\n", "  2. February");
 				System.out.printf("\t%s\n", "  3. March");
-				System.out.printf("\n\t%s\n", "  4. April");
+				System.out.printf("\t%s\n", "  4. April");
 				System.out.printf("\t%s\n", "  5. May");
 				System.out.printf("\t%s\n", "  6. June");
-				System.out.printf("\n\t%s\n", "  7. July");
+				System.out.printf("\t%s\n", "  7. July");
 				System.out.printf("\t%s\n", "  8. August");
 				System.out.printf("\t%s\n", "  9. September");
-				System.out.printf("\n\t%s\n", "  10. October");
+				System.out.printf("\t%s\n", "  10. October");
 				System.out.printf("\t%s\n", "  11. November");
 				System.out.printf("\t%s\n", "  12. December");
 				
