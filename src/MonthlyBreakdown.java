@@ -1,7 +1,7 @@
 //TODO: import all dependencies
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.Locale;
+//import java.time.Month;
+//import java.time.format.TextStyle;
+//import java.util.Locale;
 import java.util.LinkedList;
 
 public class MonthlyBreakdown {
@@ -68,16 +68,21 @@ public class MonthlyBreakdown {
 		
 	}//End displayMonthlyBreakdown()
 	
-	
-	public void displayProgressToGoal(Goal currentGoal) {
+	//public void displayProgressToGoal(Goal currentGoal)
+	public void displayProgressToGoal() {
 		//TODO: method stub
+		System.out.println("TODO:Full implementation");
 	}
 	
-	public void displayProgressOfDebt(Debt currentDebt) {
+	//public void displayProgressToGoal(Goal currentGoal)
+	public void displayProgressOfDebt() {
 		//TODO: method stub
-	}
-	
-	public void displayUpdates(list<Debt> activeDebt, list<Debt> inactiveDebt, list<Goal> activeGoals, list<Goal> completedGoals) {
+		System.out.println("TODO:Full implementation");
+	}	
+		
+	//displayUpdates(list<Debt> activeDebt, list<Debt> inactiveDebt, list<Goal> activeGoals, list<Goal> completedGoals) {
+	public void displayUpdates() {
 		//TODO: method stub
+		System.out.println("TODO:Full implementation");
 	}
 }

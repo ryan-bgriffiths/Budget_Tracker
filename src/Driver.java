@@ -149,7 +149,7 @@ public class Driver
 			
 			MonthlyBreakdown currentBreakdown = 
 					new MonthlyBreakdown(
-							currentMonth.getDisplayName(TextStyle.FULL, local.US), 
+							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 							LocalDate.now().getYear()
 							);
 			
