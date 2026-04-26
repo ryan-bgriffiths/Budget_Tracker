@@ -113,7 +113,7 @@ public class Driver
 	// main - the driver which start the program and sets up the program via getting the linked list of expenses and the current month
 	// N/A; N/A
 	//
-	public static void main() 
+	public static void main(String[] args) 
 	{
 		// get month
 		Month currentMonth = LocalDate.now().getMonth();
@@ -143,9 +143,19 @@ public class Driver
 			break;
 		
 		case 2:
-			// DO OPTION 2
+			// DO OPTION 2:
+			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
 			System.out.printf("\n%s\n","-".repeat(50));
 			System.out.printf("\n%s\n","Entering monthly overview page...");
+			
+			MonthlyBreakdown currentBreakdown = 
+					new MonthlyBreakdown(
+							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
+							LocalDate.now().getYear()
+						);
+			
+			currentBreakdown.displayMonthlyBreakdown();
+			
 			break;
 		
 		case 3:
