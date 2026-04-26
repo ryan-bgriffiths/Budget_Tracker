@@ -1,0 +1,66 @@
+import java.time.LocalDate;
+
+public class Expense {
+	
+	private float amount; 
+	private LocalDate date;
+	private String name;
+	private boolean paid; 
+	
+	//Constructor
+	public Expense(String name, float amount, int year, int month, int day)
+	{
+		this.name = name;
+		this.amount = amount;
+		this.date = LocalDate.of(year, month, day);
+		this.paid = false;	
+	}
+	
+	//Constructor (paid option)
+	public Expense(String name, float amount, int year, int month, int day, boolean paid)
+	{
+		this.name = name;
+		this.amount = amount;
+		this.date = LocalDate.of(year, month, day);
+		this.paid = paid;	
+	}
+	
+	//Getter methods
+	public float getAmount(){
+		return amount;
+	}
+	
+	public LocalDate getDate(){
+		return date;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public boolean isPaid(){
+		return paid;
+	}
+	
+	//Setter methods
+	public void setAmount(float amount){
+		this.amount = amount;
+	}
+	
+	public void setDate(int year, int month, int day) {
+		this.date = LocalDate.of(year, month, day);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+	
+	public void listExpense() {
+		System.out.printf("%-10s %-10.2f %-12s %-10s\n",
+				name, amount, date.toString(), paid ? "Paid" : "Unpaid");
+	}
+}
