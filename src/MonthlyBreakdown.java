@@ -4,6 +4,7 @@
 //import java.time.Month;
 //import java.time.format.TextStyle;
 //import java.util.Locale;
+import java.util.Scanner;
 import java.util.LinkedList;
 
 public class MonthlyBreakdown {
@@ -39,7 +40,7 @@ public class MonthlyBreakdown {
 		float total = 0;
 		
 		//For each expense in the list(monthlyExpenses), 
-		//  add the amout to total.
+		//  add the amount to total.
 		for (Expense expense : monthlyExpenses)
 		{
 			total += expense.getAmount();
@@ -49,7 +50,7 @@ public class MonthlyBreakdown {
 
 	}//End getTotalEpenses()
 	
-	public void displayMonthlyBreakdown()
+	public int displayMonthlyBreakdown(Scanner inFile)
 	{
 		System.out.printf("\n%s\n", "-".repeat(50));
 		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
@@ -62,7 +63,7 @@ public class MonthlyBreakdown {
 		{
 			System.out.println("[!] Alert: No Expenses Have Been Entered.");
 			System.out.println("Total Expenses: $0.00");
-			return;
+			return 0;
 		}
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
@@ -72,10 +73,66 @@ public class MonthlyBreakdown {
 		
 		//For each expense in the list(monthlyExpenses),
 		//  list out the expense.
-		for (Expense expense : monthlyExpenses) 
+		int index = 1;
+		for(int i = 0; i < 5; i++)
 		{
-			expense.listExpense(); 
+		if (monthlyExpenses.size() > index) 
+		{
+			monthlyExpenses.get(index).listExpense(); 
+			index++;
 		}
+		}
+		
+		//  i know it's an infinite loop but I swear the return statements give it an end
+		while (true)
+		{
+		// display menu items
+		System.out.printf("\n\t%s\n", "  1. Return to Home Page");
+		System.out.printf("\t%s\n", "  2. List next 10 items");
+		System.out.printf("\t%s\n", "  3. Change Month");
+		
+		// get user input
+		int userChoice;
+		userChoice = Driver.getMenuOption(3, inFile);
+		
+		switch (userChoice)
+		{
+			case 0:
+				return 0;
+			
+			case 1:
+				return 0;
+				
+			case 2:
+				for(int i = 0; i < 10; i++)
+				{
+				if (monthlyExpenses.size() > index) 
+				{
+					monthlyExpenses.get(index).listExpense(); 
+					index++;
+				}
+				}
+				break;
+				
+			case 3: 
+				// display month items
+				System.out.printf("\n\t%s\n", "  1. January");
+				System.out.printf("\t%s\n", "  2. February");
+				System.out.printf("\t%s\n", "  3. March");
+				System.out.printf("\n\t%s\n", "  4. April");
+				System.out.printf("\t%s\n", "  5. May");
+				System.out.printf("\t%s\n", "  6. June");
+				System.out.printf("\n\t%s\n", "  7. July");
+				System.out.printf("\t%s\n", "  8. August");
+				System.out.printf("\t%s\n", "  9. September");
+				System.out.printf("\n\t%s\n", "  10. October");
+				System.out.printf("\t%s\n", "  11. November");
+				System.out.printf("\t%s\n", "  12. December");
+				
+				return Driver.getMenuOption(12, inFile);
+		}
+		}
+		
 		
 	}//End displayMonthlyBreakdown()
 	

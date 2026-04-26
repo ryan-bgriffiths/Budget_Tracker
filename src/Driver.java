@@ -1,8 +1,10 @@
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Locale;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.Locale;
 import java.util.Scanner;
+import java.time.format.TextStyle;
 
 //
 // Driver - holds the main function as well as utilities directly used by the main function including a function to get menu options 
@@ -115,17 +117,41 @@ public class Driver
 	//
 	public static void main(String[] args) 
 	{
-		// get month
+		// get current month
 		Month currentMonth = LocalDate.now().getMonth();
+		Month[] monthNames = Month.values();
 		
-		// << TO BE DONE>>
-		// declare all needed classes
+		// get linked list data from that month on start 
+		// below is an array of expense linked lists, month# = index-1
+		LinkedList<Expense>[] allMonths = new LinkedList[]
+		{
+		SaveAsTXT.loadFromFile("JanuaryExpenses.txt"),
+		SaveAsTXT.loadFromFile("FebrurayExpenses.txt"),
+		SaveAsTXT.loadFromFile("MarchExpenses.txt"),
+		SaveAsTXT.loadFromFile("AprilExpenses.txt"),
+		SaveAsTXT.loadFromFile("MayExpenses.txt"),
+		SaveAsTXT.loadFromFile("JuneExpenses.txt"),
+		SaveAsTXT.loadFromFile("JulyExpenses.txt"),
+		SaveAsTXT.loadFromFile("AugustExpenses.txt"),
+		SaveAsTXT.loadFromFile("SeptemeberExpenses.txt"),
+		SaveAsTXT.loadFromFile("OctoberExpenses.txt"),
+		SaveAsTXT.loadFromFile("NovemberExpenses.txt"),
+		SaveAsTXT.loadFromFile("DecemberExpenses.txt")
+		};
+		
+		
+		// declare all needed classes and variables
 		int userChoice;
 		Scanner input = new Scanner(System.in);
+		MonthlyBreakdown currentBreakdown = 
+				new MonthlyBreakdown(
+						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
+						LocalDate.now().getYear(), 
+						allMonths[currentMonth.getValue()]
+					);
 
-		
-		// << TO BE DONE >>
-		// get linked list data from that month on start 
+
+
 		
 		// call start menu
 		do
@@ -145,16 +171,22 @@ public class Driver
 		case 2:
 			// DO OPTION 2:
 			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
-			System.out.printf("\n%s\n","-".repeat(50));
-			System.out.printf("\n%s\n","Entering monthly overview page...");
+			System.out.printf("\n%s\n","-".repeat(50));	
 			
-			MonthlyBreakdown currentBreakdown = 
-					new MonthlyBreakdown(
-							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
-							LocalDate.now().getYear()
-						);
+			// if 0 standard return, if non-0 change to month number
+			int status;
+			status = currentBreakdown.displayMonthlyBreakdown(input);
 			
-			currentBreakdown.displayMonthlyBreakdown();
+			while (status != 0)
+			{
+				MonthlyBreakdown requestedBreakdown = 
+						new MonthlyBreakdown(
+								monthNames[status-1].name(), 
+								LocalDate.now().getYear()
+							);
+				
+				status = requestedBreakdown.displayMonthlyBreakdown(input);
+			}
 			
 			break;
 		

@@ -67,8 +67,8 @@ public class SaveAsTXT {
 				boolean paid = (paidInput == 0);
 				
 				Expense expense = new Expense(
-					name, amount, paidInput, 
-					paidInput, paidInput
+					name, amount, date.getYear(), 
+					date.getMonthValue(), date.getDayOfMonth(), paid
 				);
 
 				expenseList.add(expense);
