@@ -26,7 +26,7 @@ public class SaveAsTXT {
 			// FileWriter WITHOUT append  (overwrites)
 			PrintWriter writer = new PrintWriter(new FileWriter(file, false));
 
-			// 
+			// For each expense in the list(expeseList) write data to writer.
 			for (Expense expense : expenseList) {
 				writer.println(expense.getAmount());
 				writer.println(expense.getDate());
@@ -68,7 +68,8 @@ public class SaveAsTXT {
 				
 				Expense expense = new Expense(
 					name, amount, paidInput, 
-					paidInput, paidInput);
+					paidInput, paidInput
+				);
 
 				expenseList.add(expense);
 			}

@@ -143,7 +143,8 @@ public class Driver
 			break;
 		
 		case 2:
-			// DO OPTION 2
+			// DO OPTION 2:
+			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
 			System.out.printf("\n%s\n","-".repeat(50));
 			System.out.printf("\n%s\n","Entering monthly overview page...");
 			
@@ -151,7 +152,7 @@ public class Driver
 					new MonthlyBreakdown(
 							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 							LocalDate.now().getYear()
-							);
+						);
 			
 			currentBreakdown.displayMonthlyBreakdown();
 			

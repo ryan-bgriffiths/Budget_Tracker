@@ -17,7 +17,8 @@ public class MonthlyBreakdown {
 		this.name = name;
 		this.year = year;
 		this.monthlyExpenses = new LinkedList<>();
-	}
+
+	}//End MonthlyBreakdown(String, int)
 	
 	// Fully parameterized constructor
 	public MonthlyBreakdown(String name, int year, LinkedList<Expense> monthlyExpenses) 
@@ -25,21 +26,26 @@ public class MonthlyBreakdown {
 		this.name = name;
 		this.year = year;
 		this.monthlyExpenses = monthlyExpenses;		
-	}
+
+	}//End MonthlyBreakdown(String, int, LinkedList)
 	
 	//Methods
-	
+
+	/*Method totals all current monthly expenses. */
 	public float getTotalExpenses() 
 	{
 		float total = 0;
 		
+		//For each expense in the list(monthlyExpenses), 
+		//  add the amout to total.
 		for (Expense expense : monthlyExpenses)
 		{
 			total += expense.getAmount();
 		}
 		
 		return total; 
-	}
+
+	}//End getTotalEpenses()
 	
 	public void displayMonthlyBreakdown()
 	{
@@ -59,8 +65,11 @@ public class MonthlyBreakdown {
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
 		
+		// Formatted headline
 		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 		
+		//For each expense in the list(monthlyExpenses),
+		//  list out the expense.
 		for (Expense expense : monthlyExpenses) 
 		{
 			expense.listExpense(); 

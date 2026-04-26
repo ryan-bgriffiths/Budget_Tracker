@@ -1,5 +1,12 @@
 import java.time.LocalDate;
 
+
+/* class Expense:
+ *	Dollar amount for the expense is stored in the amount field.
+ *	Correlating date of the expense is stored in the date field (year, month, day).
+ *	User defined name of the expense is stored in the name field.
+ *	Paid status of the expense is stored in the paid field, True-paid, False-unpaid 
+ */
 public class Expense {
 	
 	private float amount; 
@@ -59,6 +66,7 @@ public class Expense {
 		this.paid = paid;
 	}
 	
+	//Method outputs formatted expense.
 	public void listExpense() {
 		System.out.printf("%-10s %-10.2f %-12s %-10s\n",
 				name, amount, date.toString(), paid ? "Paid" : "Unpaid");
