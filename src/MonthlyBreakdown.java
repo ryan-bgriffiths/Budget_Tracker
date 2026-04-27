@@ -74,11 +74,16 @@ public class MonthlyBreakdown {
 		
 		//For each expense in the list(monthlyExpenses),
 		//  list out the expense.
-		int index = 1;
+		int index = 0;
 		for(int i = 0; i < 5; i++) {
 			if (monthlyExpenses.size() >= index) {
 				monthlyExpenses.get(index - 1).listExpense(); 
 				index++;
+			}
+			else
+			{
+				System.out.println("<<END OF EXPENSE LIST>>");
+				break;
 			}
 		}
 		
