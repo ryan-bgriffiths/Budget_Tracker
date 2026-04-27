@@ -150,7 +150,7 @@ public class Driver
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
-						allMonths[currentMonth.getValue()],
+						allMonths[currentMonth.getValue() - 1],
 						goalStub,
 						debtStub
 					);
