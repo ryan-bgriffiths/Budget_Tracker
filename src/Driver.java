@@ -101,7 +101,7 @@ public class Driver
 				System.out.printf("\n\t%s\n", "Start Menu Options:");
 				System.out.printf("\t%s\n", "  1. Overall Expenses");
 				System.out.printf("\t%s\n", "  2. Monthly Overview");
-				System.out.printf("\t%s\n", "  3. Add Expense");
+				System.out.printf("\t%s\n", "  3. Add/Modify/ Delete Expense");
 				System.out.printf("\t%s\n", "  4. Manage Goals");
 				System.out.printf("\t%s\n", "  5. Manage Debt");
 							
@@ -193,7 +193,8 @@ public class Driver
 		case 3:
 			// DO OPTION 3
 			System.out.printf("\n%s\n","-".repeat(50));
-			System.out.printf("\n%s\n","Entering add expense page...");
+			System.out.printf("\n%s\n","Entering add/modify/delete expense page...");
+			ExpenseUI.showExpenseMenu(input, allMonths[currentMonth.getValue() - 1]);
 			break;
 		
 		case 4:
