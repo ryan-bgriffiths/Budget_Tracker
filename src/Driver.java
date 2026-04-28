@@ -18,7 +18,8 @@ public class Driver
 	//
 	// getMenuOption - Allows programmer to enter an end value. Will prompt user to enter number from 1 to end or to press 0 to exit the program. 
 	// 				   Returns the value from 0 to end entered by user.
-	// integer END (largest number user can enter), Scanner INFILE (the user input handle originally created in main); integer USERCHOICE (the menu item the user chose)
+	// integer END (largest number user can enter), Scanner INFILE (the user input handle originally created in main); integer USERCHOICE 
+	//																												   (the menu item the user chose)
 	//
 	public static int getMenuOption(int end, Scanner inFile)
 	{
@@ -99,14 +100,14 @@ public class Driver
 				System.out.printf("%s\n","-".repeat(50));
 				
 				System.out.printf("\n\t%s\n", "Start Menu Options:");
-				System.out.printf("\t%s\n", "  1. Overall Expenses");
-				System.out.printf("\t%s\n", "  2. Monthly Overview");
-				System.out.printf("\t%s\n", "  3. Add Expense");
-				System.out.printf("\t%s\n", "  4. Manage Goals");
-				System.out.printf("\t%s\n", "  5. Manage Debt");
+
+				System.out.printf("\t%s\n", "  1. Monthly Overview");
+				System.out.printf("\t%s\n", "  2. Add Expense");
+				System.out.printf("\t%s\n", "  3. Manage Goals");
+				System.out.printf("\t%s\n", "  4. Manage Debt");
 							
 				// get user input for menu choice
-				int choice = getMenuOption(5, inFile);
+				int choice = getMenuOption(4, inFile);
 				
 				return choice;
 			}
@@ -143,11 +144,15 @@ public class Driver
 		// declare all needed classes and variables
 		int userChoice;
 		Scanner input = new Scanner(System.in);
+		LinkedList<Goal> goalStub = new LinkedList<Goal>();
+		LinkedList<Debt> debtStub = new LinkedList<Debt>();
 		MonthlyBreakdown currentBreakdown = 
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
-						allMonths[currentMonth.getValue()]
+						allMonths[currentMonth.getValue() - 1],
+						goalStub,
+						debtStub
 					);
 
 
@@ -161,15 +166,7 @@ public class Driver
 		// menu choices
 		switch(userChoice) 
 		{
-		
 		case 1:
-			// DO OPTION 1
-			System.out.printf("\n%s\n","-".repeat(50));
-			System.out.printf("\n%s\n","Entering overall expenses page...");
-			break;
-		
-		case 2:
-			// DO OPTION 2:
 			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
 			System.out.printf("\n%s\n","-".repeat(50));	
 			
@@ -190,19 +187,20 @@ public class Driver
 			
 			break;
 		
-		case 3:
-			// DO OPTION 3
+		case 2:
+			// DO OPTION 2
 			System.out.printf("\n%s\n","-".repeat(50));
-			System.out.printf("\n%s\n","Entering add expense page...");
+			System.out.printf("\n%s\n","Entering add/modify/delete expense page...");
+			ExpenseUI.showExpenseMenu(input, allMonths[currentMonth.getValue() - 1]);
 			break;
 		
-		case 4:
+		case 3:
 			// DO OPTION 4
 			System.out.printf("\n%s\n","-".repeat(50));
 			System.out.printf("\n%s\n","Entering goals page...");
 			break;
 		
-		case 5:
+		case 4:
 			// DO OPTION 5
 			System.out.printf("\n%s\n","-".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
