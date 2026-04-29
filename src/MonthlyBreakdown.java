@@ -48,10 +48,55 @@ public class MonthlyBreakdown {
 			total += expense.getAmount();
 		}
 		
-		return total; 
-
+		return total;
 	}//End getTotalEpenses()
-	
+
+
+	// Prints the menu and gets user input
+	public int monthlyBreakdownMenu(Scanner inFile, int index) {
+		
+		//  i know it's an infinite loop but I swear the return statements give it an end
+		while (true) {
+			// display menu items
+			System.out.printf("\n\t%s\n", "  1. Return to Home Page");
+			System.out.printf("\t%s\n", "  2. List next 5 items");
+			System.out.printf("\t%s\n", "  3. Change Month");
+		
+			// get user input
+			int userChoice;
+			userChoice = Driver.getMenuOption(3, inFile);
+		
+			switch (userChoice) {
+				case 0:
+					return 0;
+			
+				case 1:
+					return 0;
+				
+				case 2:
+					System.out.println("Expenses (by item):");
+					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
+					
+					for(int i = 0; i < 10; i++) {
+						if (monthlyExpenses.size() >= index) {
+							monthlyExpenses.get(index - 1).listExpense(); 
+							index++;
+						}
+					}
+				break;
+				
+				case 3: 
+				// display month items
+					System.out.printf("\n\t%s\n", "Please enter the number of the month you want to swap to");
+					System.out.printf("%s", " (1=Jan, 2=Feb, ect): ");
+				
+					return Driver.getMenuOption(12, inFile);
+				}
+			}	
+		
+	}
+		
+			
 	public int displayMonthlyBreakdown(Scanner inFile) {
 		System.out.printf("\n%s\n", "-".repeat(50));
 		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
@@ -89,56 +134,8 @@ public class MonthlyBreakdown {
 		
 		//List out goals and debts
 		displayUpdates();
-		
-		//  i know it's an infinite loop but I swear the return statements give it an end
-		while (true) {
-			// display menu items
-			System.out.printf("\n\t%s\n", "  1. Return to Home Page");
-			System.out.printf("\t%s\n", "  2. List next 5 items");
-			System.out.printf("\t%s\n", "  3. Change Month");
-		
-			// get user input
-			int userChoice;
-			userChoice = Driver.getMenuOption(3, inFile);
-		
-			switch (userChoice) {
-				case 0:
-					return 0;
-			
-				case 1:
-					return 0;
-				
-				case 2:
-					System.out.println("Expenses (by item):");
-					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
-					
-					for(int i = 0; i < 10; i++) {
-						if (monthlyExpenses.size() >= index) {
-							monthlyExpenses.get(index - 1).listExpense(); 
-							index++;
-						}
-					}
-				break;
-				
-				case 3: 
-				// display month items
-					System.out.printf("\n\t%s\n", "  1. January");
-					System.out.printf("\t%s\n", "  2. February");
-					System.out.printf("\t%s\n", "  3. March");
-					System.out.printf("\t%s\n", "  4. April");
-					System.out.printf("\t%s\n", "  5. May");
-					System.out.printf("\t%s\n", "  6. June");
-					System.out.printf("\t%s\n", "  7. July");
-					System.out.printf("\t%s\n", "  8. August");
-					System.out.printf("\t%s\n", "  9. September");
-					System.out.printf("\t%s\n", "  10. October");
-					System.out.printf("\t%s\n", "  11. November");
-					System.out.printf("\t%s\n", "  12. December");
-				
-					return Driver.getMenuOption(12, inFile);
-				}
-			}	
-		
+
+		return monthlyBreakdownMenu(inFile, index);
 		
 	}//End displayMonthlyBreakdown()
 	
