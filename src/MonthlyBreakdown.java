@@ -78,17 +78,21 @@ public class MonthlyBreakdown {
 					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 					
 					for(int i = 0; i < 10; i++) {
-						if (monthlyExpenses.size() >= index) {
-							monthlyExpenses.get(index - 1).listExpense(); 
+						if (monthlyExpenses.size() > index) {
+							monthlyExpenses.get(index).listExpense(); 
 							index++;
+						}
+						else
+						{
+							System.out.println("\n<<END OF EXPENSE LIST>>\n");
+							break;
 						}
 					}
 				break;
 				
 				case 3: 
 				// display month items
-					System.out.printf("\n\t%s\n", "Please enter the number of the month you want to swap to");
-					System.out.printf("%s", " (1=Jan, 2=Feb, ect): ");
+					System.out.printf("\n%s\n", "Enter the number of the month you would like to swap to (1=Jan, 2=Feb, ect)");
 				
 					return Driver.getMenuOption(12, inFile);
 				}
@@ -104,10 +108,15 @@ public class MonthlyBreakdown {
 		
 		System.out.printf("Month: %s %d\n", name, year);
 		
+		// index used to track how many expenses have been printed
+		int index = 0;
+
+		
 		//Display alert msg if no expenses have been entered.
 		if (monthlyExpenses.isEmpty()) {
 			System.out.println("[!] Alert: No Expenses Have Been Entered.");
 			System.out.println("Total Expenses: $0.00");
+			monthlyBreakdownMenu(inFile, index);
 			return 0;
 		}
 		
@@ -119,15 +128,14 @@ public class MonthlyBreakdown {
 		
 		//For each expense in the list(monthlyExpenses),
 		//  list out the expense.
-		int index = 0;
 		for(int i = 0; i < 5; i++) {
-			if (monthlyExpenses.size() >= index) {
-				monthlyExpenses.get(index - 1).listExpense(); 
+			if (monthlyExpenses.size() > index) {
+				monthlyExpenses.get(index).listExpense(); 
 				index++;
 			}
 			else
 			{
-				System.out.println("<<END OF EXPENSE LIST>>");
+				System.out.println("\n<<END OF EXPENSE LIST>>\n");
 				break;
 			}
 		}
@@ -198,7 +206,7 @@ public class MonthlyBreakdown {
 		System.out.println("Goals:");
 		
 		if(goals.size() <= 0)	//Check for empty LinkedList
-			System.out.println("[!] Alert - No goals added.");
+			System.out.println("[!] Alert - No goals added.\n");
 		else {
 			for(int i = 1; i <= goals.size(); i++) {	//int i is set to 1 for printing list 1.) -> n.)
 				System.out.print(i + ".)");
@@ -210,7 +218,7 @@ public class MonthlyBreakdown {
 		System.out.println("Debts:");
 		
 		if(debts.size() <= 0)	//Check for empty LinkedList
-			System.out.println("[!] Alert - No debts added.");
+			System.out.println("[!] Alert - No debts added.\n");
 		else {
 			//Display total
 			float sum = 0;
