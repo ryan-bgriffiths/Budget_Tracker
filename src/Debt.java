@@ -3,6 +3,7 @@ import java.util.LinkedList;
 
 public class Debt {
 
+    // **Add Initial start date**
     // Fields
     String name; 
     float principle;
@@ -10,7 +11,7 @@ public class Debt {
     LinkedList<Expense> paymentHistory;
     float interestRate;
     boolean compoundOrSimple;
-    float remainingBalance;
+    float remainingBalance; // Remove 
     boolean status; //active vs inactive
     // Constructors
 
