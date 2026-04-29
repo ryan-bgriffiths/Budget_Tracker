@@ -52,6 +52,7 @@ public class MonthlyBreakdown {
 	}//End getTotalEpenses()
 
 
+	//<<TO DO BUG>> if you enter the current month number after changing the month it shoots you back to the home pg
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
 		
@@ -93,7 +94,7 @@ public class MonthlyBreakdown {
 				case 3: 
 				// display month items
 					System.out.printf("\n%s\n", "Enter the number of the month you would like to swap to (1=Jan, 2=Feb, ect)");
-				
+			
 					return Driver.getMenuOption(12, inFile);
 				}
 			}	
@@ -116,8 +117,7 @@ public class MonthlyBreakdown {
 		if (monthlyExpenses.isEmpty()) {
 			System.out.println("[!] Alert: No Expenses Have Been Entered.");
 			System.out.println("Total Expenses: $0.00");
-			monthlyBreakdownMenu(inFile, index);
-			return 0;
+			return monthlyBreakdownMenu(inFile, index);	
 		}
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
