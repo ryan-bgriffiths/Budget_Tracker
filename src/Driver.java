@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
 import java.time.format.TextStyle;
-
+//TESTING
 //
 // Driver - holds the main function as well as utilities directly used by the main function including a function to get menu options 
 //			and the start menu itself
@@ -150,7 +150,7 @@ public class Driver
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
-						allMonths[currentMonth.getValue()],
+						allMonths[currentMonth.getValue() - 1],
 						goalStub,								//<<TO DO>> fix once goal class is created
 						debtStub								//<<TO DO>> fix once debt class is created
 					);
