@@ -1,6 +1,6 @@
 // OverallExpense - displays the overall expenses page in terminal format
 // This class ONLY handles displaying data, not modifying or storing it
-
+// Updated OverallExpense
 public class OverallExpense 
 {
     // constant that limits how many expenses are shown per page
