@@ -151,10 +151,12 @@ public class Driver
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
 						allMonths[currentMonth.getValue() - 1],
-						goalStub,
-						debtStub
+						goalStub,								//<<TO DO>> fix once goal class is created
+						debtStub								//<<TO DO>> fix once debt class is created
 					);
-
+		MonthlyBreakdown requestedBreakdown;
+		LinkedList<Goal> requestedGoalStub = new LinkedList<Goal>();
+		LinkedList<Debt> requestedDebtStub = new LinkedList<Debt>();
 
 
 		
@@ -176,10 +178,13 @@ public class Driver
 			
 			while (status != 0)
 			{
-				MonthlyBreakdown requestedBreakdown = 
+				requestedBreakdown = 
 						new MonthlyBreakdown(
 								monthNames[status-1].name(), 
-								LocalDate.now().getYear()
+								LocalDate.now().getYear(),
+								allMonths[status-1],
+								requestedGoalStub,		//<<TO DO>> fix once goal class is created
+								requestedDebtStub		//<<TO DO>> fix once debt class is created
 							);
 				
 				status = requestedBreakdown.displayMonthlyBreakdown(input);
@@ -190,7 +195,7 @@ public class Driver
 		case 2:
 			// DO OPTION 2
 			System.out.printf("\n%s\n","-".repeat(50));
-			System.out.printf("\n%s\n","Entering add/modify/delete expense page...");
+			System.out.printf("\n%s\n","Entering modify expense page...");
 			ExpenseUI.showExpenseMenu(input, allMonths[currentMonth.getValue() - 1]);
 			break;
 		
