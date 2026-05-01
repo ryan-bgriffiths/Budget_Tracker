@@ -1,10 +1,10 @@
 import static org.junit.jupiter.api.Assertions.*;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDate;
 
 class ExpenseTests {
 
