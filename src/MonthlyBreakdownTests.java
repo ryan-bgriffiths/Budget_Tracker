@@ -13,6 +13,10 @@ class MonthlyBreakdownTests {
 	private final ByteArrayOutputStream outputCaptor = new ByteArrayOutputStream();
 	private final PrintStream standardOut = System.out;
 	
+	// declared as global so can be used throughout testing
+	MonthlyBreakdown jan;
+	MonthlyBreakdown may;
+	
 	@BeforeEach
 	public void setUp()
 	{
@@ -37,6 +41,13 @@ class MonthlyBreakdownTests {
 		
 		MonthlyBreakdown jan = new MonthlyBreakdown("January", 2026);
 		MonthlyBreakdown may = new MonthlyBreakdown("May", 2026, expenseList, goalStub, debtStub);
+	}
+	
+	
+	@Test
+	void testMonthlyBreakdownAlgorithms()
+	{
+		//<<TO DO>>
 	}
 	
 	
