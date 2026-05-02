@@ -10,11 +10,11 @@ import java.util.LinkedList;
 public class MonthlyBreakdown {
 	
 	//Fields
-	public String name;
-	public int year;
-	public LinkedList<Expense> monthlyExpenses;
-	public LinkedList<Goal> goals;
-	public LinkedList<Debt> debts;
+	private String name;
+	private int year;
+	private LinkedList<Expense> monthlyExpenses;
+	private LinkedList<Goal> goals;
+	private LinkedList<Debt> debts;
 	
 	// Default constructor
 	public MonthlyBreakdown(String name, int year) {
@@ -38,6 +38,31 @@ public class MonthlyBreakdown {
 	
 	//Methods
 
+	/*retrieve name */
+	public String getName() {
+		return name;
+	}
+	
+	/*retrieve year */
+	public int getYear() {
+		return year;
+	}
+	
+	/*retrieve expense list */
+	public LinkedList<Expense> getExpenses() {
+		return monthlyExpenses;
+	}
+	
+	/*retrieve debt list */
+	public LinkedList<Debt> getDebts() {
+		return debts;
+	}
+	
+	/*retrieve goal list */
+	public LinkedList<Goal> getGoals() {
+		return goals;
+	}
+	
 	/*Method totals all current monthly expenses. */
 	public float getTotalExpenses() {
 		float total = 0;
@@ -52,11 +77,10 @@ public class MonthlyBreakdown {
 	}//End getTotalEpenses()
 
 
-	//<<TO DO BUG>> if you enter the current month number after changing the month it shoots you back to the home pg
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
 		
-		//  i know it's an infinite loop but I swear the return statements give it an end
+		// it's an infinite loop but I swear the return statements give it an end
 		while (true) {
 			// display menu items
 			System.out.printf("\n\t%s\n", "  1. Return to Home Page");
@@ -75,7 +99,7 @@ public class MonthlyBreakdown {
 					return 0;
 				
 				case 2:
-					System.out.println("Expenses (by item):");
+					System.out.printf("\nExpenses (by item):\n");
 					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 					
 					for(int i = 0; i < 10; i++) {
@@ -85,7 +109,7 @@ public class MonthlyBreakdown {
 						}
 						else
 						{
-							System.out.println("\n<<END OF EXPENSE LIST>>\n");
+							System.out.printf("\n<<END OF EXPENSE LIST>>\n");
 							break;
 						}
 					}

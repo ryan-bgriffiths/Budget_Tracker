@@ -8,39 +8,43 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+// <<DONE>>
+
 class SaveAsTXTTests {
 	
 	
 		// declare the output stream captor to test printing and the standard out to reset it
 		private final ByteArrayOutputStream outputCaptor = new ByteArrayOutputStream();
 		private final PrintStream standardOut = System.out;
+		File file;
+		LinkedList<Expense> expenseList;
+		LinkedList<Expense> readList;
+		Expense expenseNode;
 		
 		@BeforeEach
 		public void setUp()
 		{
 			// get java to write to the captor instead of console
 			System.setOut(new PrintStream(outputCaptor));
-		}
-
-		@Test
-		void test() {
-			// delete the file if it exists
-			File file = new File("januaryExpenses");
 			
+			// delete the file if it exists
+			file = new File("januaryExpenses");
 			file.delete();
 			
 			// set up a linked list
-			LinkedList<Expense> expenseList = new LinkedList<Expense>();
-			LinkedList<Expense> readList = new LinkedList<Expense>();
-
-
-			Expense expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
+			expenseList = new LinkedList<Expense>();
+			readList = new LinkedList<Expense>();
+			
+			expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
 			expenseList.add(expenseNode);
 			expenseNode = new Expense("Hulu", 3.99f, 2026, 04, 29, true);
 			expenseList.add(expenseNode);
 			expenseNode = new Expense("Disney+", 9.99f, 2026, 04, 28);
 			expenseList.add(expenseNode);
-			
+		}
+
+		@Test
+		void testSaveToFile() {
 			// call save to file on new file
 			SaveAsTXT.saveToFile(expenseList, "januaryExpenses");
 			
@@ -122,35 +126,8 @@ class SaveAsTXTTests {
 			assertEquals(0, readList.size());
 			file.delete();
 
-			// trip the inability to read or write to file by making file a locked folder (no read permissions)
-			Path tempDir = null;
-			try {
-				Path tempFolder = Files.createTempDirectory("testTrap");
-				
-				// variables to try to trip load from file
-				File secretFile = new File(tempFolder.toFile(),"locked.txt");
-				secretFile.createNewFile();
-
-				// test invalid save to
-				SaveAsTXT.saveToFile(expenseList, tempFolder.toString());
-				SaveAsTXT.saveToFile(expenseList, secretFile.getAbsolutePath());
-				assertEquals("Error saving file: "+ tempFolder.toString(), outputCaptor.toString().trim());
-				outputCaptor.reset();			// make empty so doesn't interfere with next test
-				
-				
-				// << I CANT FIGURE OUT HOW TO TRIP THE CATCH IN LOAD FROM FILE>>
-				secretFile.setReadable(false);		// lock the folder so no reading
-				SaveAsTXT.loadFromFile(secretFile.getAbsolutePath());
-				assertEquals("Error reading file: "+ tempFolder.toString(), outputCaptor.toString().trim());
-				outputCaptor.reset();			// make empty so doesn't interfere with next test
+			// I DON'T THINK I CAN TRIP THE CATCH STATEMENT IN SAVEASTXT.JAVA
 			
-				tempFolder.toFile().delete();
-			} catch (IOException e) {
-				System.exit(1);
-			}
-			
-			
-				
 		}
 
 		

@@ -41,7 +41,7 @@ public class OverallExpense
 
         // ===== MONTH DISPLAY =====
         // displays the current month name (no year per requirement)
-        System.out.println("Month: " + currentMonth.name);
+        System.out.println("Month: " + currentMonth.getName());
         System.out.println(); // spacing for readability
 
         // ===== TOTAL SPENDING =====
@@ -69,10 +69,10 @@ public class OverallExpense
 
         // ===== DISPLAY EXPENSES =====
         // loops through list and prints up to MAX_ITEMS (10) expenses
-        while (expenseIndex < currentMonth.monthlyExpenses.size() && itemsShown < MAX_ITEMS)
+        while (expenseIndex < currentMonth.getExpenses().size() && itemsShown < MAX_ITEMS)
         {
             // retrieve current expense object
-            Expense currentExpense = currentMonth.monthlyExpenses.get(expenseIndex);
+            Expense currentExpense = currentMonth.getExpenses().get(expenseIndex);
 
             // print formatted row with index, name, and amount
             System.out.printf("%-5d %-15s $%-10.2f%n",
