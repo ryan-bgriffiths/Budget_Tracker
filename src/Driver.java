@@ -54,6 +54,14 @@ public class Driver
 		input = new Scanner(System.in);
 		goalStub = new LinkedList<Goal>();
 		debtStub = new LinkedList<Debt>();
+		currentBreakdown = 
+				new MonthlyBreakdown(
+						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
+						LocalDate.now().getYear(), 
+						allMonths[currentMonth.getValue() - 1],
+						goalStub,								//<<TO DO>> fix once goal class is created
+						debtStub								//<<TO DO>> fix once debt class is created
+					);
 	}
 	
 	//
@@ -103,11 +111,71 @@ public class Driver
 		return choice;
 	}
 	
+	
+	public static void displayOverallExpense(MonthlyBreakdown currentMonth, int startIndex)
+    {
+
+        // ===== TOTAL SPENDING =====
+        // retrieves total spending for the entire month from MonthlyBreakdown
+        float totalSpending = currentMonth.getTotalExpenses();
+
+        // prints total formatted to 2 decimal places
+        System.out.printf("Total Spending: $%.2f%n%n", totalSpending);
+
+        // ===== EXPENSE LIST HEADER =====
+        // prints column labels for expense table
+        System.out.println("Expenses:");
+        System.out.println("--------------------------------------------------");
+
+        // formatted columns: index, name, amount
+        System.out.printf("%-5s %-25s %-10s%n", "#", "Name", "Amount");
+        System.out.println("--------------------------------------------------");
+
+        // ===== PAGINATION SETUP =====
+        // tracks number of items printed (limit = MAX_ITEMS)
+        int itemsShown = 0;
+
+        // convert from 1-based index (user view) to 0-based index (list access)
+        int expenseIndex = startIndex;
+
+        // ===== DISPLAY EXPENSES =====
+        // loops through list and prints up to MAX_ITEMS (10) expenses
+        while ((expenseIndex < currentMonth.getExpenses().size()) && (itemsShown < 10))
+        {
+            // retrieve current expense object
+            Expense currentExpense = currentMonth.getExpenses().get(expenseIndex);
+
+            // print formatted row with index, name, and amount
+            System.out.printf("%-5d %-25s $%-10.2f%n",
+                    expenseIndex + 1,              // display index (1-based)
+                    currentExpense.getName(),      // expense name
+                    currentExpense.getAmount());   // expense amount
+
+            // move to next expense in list
+            expenseIndex++;
+
+            // increment count of displayed items
+            itemsShown++;
+        }
+
+        // ===== EMPTY STATE =====
+        // if no expenses were displayed, notify the user
+        if (itemsShown == 0)
+        {
+            System.out.println("No expenses found for this month.");
+        }
+
+        // ===== FOOTER =====
+        // separator line for clean UI
+        System.out.println("--------------------------------------------------");
+
+    }
+	
 	//
 	// startMenu - displays the start menu
 	// Month CURRENTMONTH (the current month), Scanner INFILE (the user input handle originally created in main); integer USERCHOICE (the menu item the user chose)
 	//
-	public static int startMenu(Month currentMonth, Scanner inFile)
+	public static int startMenu(Month currentMonth, MonthlyBreakdown currentBreakdown, Scanner inFile)
 	{
 		
 		// display startup UI - format:
@@ -140,6 +208,8 @@ public class Driver
 				
 				System.out.printf("%s\n","-".repeat(50));
 				
+				displayOverallExpense(currentBreakdown, 0);
+				
 				System.out.printf("\n\t%s\n", "Start Menu Options:");
 
 				System.out.printf("\t%s\n", "  1. Monthly Overview");
@@ -159,12 +229,13 @@ public class Driver
 	//
 	public static void main(String[] args) 
 	{
+		setup();
 		int userChoice;
 
 		// call start menu
 		do
 		{
-		userChoice = startMenu(currentMonth, input);
+		userChoice = startMenu(currentMonth,currentBreakdown, input);
 		
 		// menu choices
 		switch(userChoice) 
