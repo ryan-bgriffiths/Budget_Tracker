@@ -75,7 +75,6 @@ public class MonthlyBreakdown {
 		
 		return total;
 	}//End getTotalEpenses()
-<<<<<<< HEAD
 	
 	public int displayMonthlyBreakdown(Scanner inFile) {
 		System.out.printf("\n%s\n", "-".repeat(50));
@@ -86,15 +85,15 @@ public class MonthlyBreakdown {
 		
 		//Display alert msg if no expenses have been entered.
 		if (monthlyExpenses.isEmpty()) {
-			System.out.println("[!] Alert: No Expenses Have Been Entered.");
-			System.out.println("Total Expenses: $0.00");
+			System.out.printf("[!] Alert: No Expenses Have Been Entered.\n");
+			System.out.printf("Total Expenses: $0.00\n");
 			return 0;
 		}
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
 		
 		// Formatted headline
-		System.out.println("Expenses (by item):");
+		System.out.printf("Expenses (by item):\n");
 		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 		
 		//For each expense in the list(monthlyExpenses),
@@ -107,19 +106,20 @@ public class MonthlyBreakdown {
 			}
 			else
 			{
-				System.out.println("<<END OF EXPENSE LIST>>");
+				System.out.printf("<<END OF EXPENSE LIST>>\n");
 				break;
 			}
 		}
 		
 		//List out goals and debts
 		displayUpdates();
-=======
+		return monthlyBreakdownMenu(inFile, index);
+		
+	}//End displayMonthlyBreakdown()
 
 
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
->>>>>>> 9a5b98d3947c2423b031def19e85241146ab3ed4
 		
 		// it's an infinite loop but I swear the return statements give it an end
 		while (true) {
@@ -132,6 +132,7 @@ public class MonthlyBreakdown {
 			int userChoice;
 			userChoice = Driver.getMenuOption(3, inFile);
 		
+			// no need for default because input validation prevents numbers other than 0-3
 			switch (userChoice) {
 				case 0:
 					return 0;
@@ -157,8 +158,8 @@ public class MonthlyBreakdown {
 				break;
 				
 				case 3: 
-				// display month items
-					System.out.printf("\n%s\n", "Enter the number of the month you would like to swap to (1=Jan, 2=Feb, ect)");
+				// change months
+					System.out.printf("\n%s\n", "Enter the number of the month you would like to view (1=Jan, 2=Feb, ect)");
 			
 					return Driver.getMenuOption(12, inFile);
 				}
@@ -166,51 +167,6 @@ public class MonthlyBreakdown {
 		
 	}
 		
-			
-	public int displayMonthlyBreakdown(Scanner inFile) {
-		System.out.printf("\n%s\n", "-".repeat(50));
-		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
-		System.out.printf("%s\n", "-".repeat(50));
-		
-		System.out.printf("Month: %s %d\n", name, year);
-		
-		// index used to track how many expenses have been printed
-		int index = 0;
-
-		
-		//Display alert msg if no expenses have been entered.
-		if (monthlyExpenses.isEmpty()) {
-			System.out.println("[!] Alert: No Expenses Have Been Entered.");
-			System.out.println("Total Expenses: $0.00");
-			return monthlyBreakdownMenu(inFile, index);	
-		}
-		
-		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
-		
-		// Formatted headline
-		System.out.println("Expenses (by item):");
-		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
-		
-		//For each expense in the list(monthlyExpenses),
-		//  list out the expense.
-		for(int i = 0; i < 5; i++) {
-			if (monthlyExpenses.size() > index) {
-				monthlyExpenses.get(index).listExpense(); 
-				index++;
-			}
-			else
-			{
-				System.out.println("\n<<END OF EXPENSE LIST>>\n");
-				break;
-			}
-		}
-		
-		//List out goals and debts
-		displayUpdates();
-
-		return monthlyBreakdownMenu(inFile, index);
-		
-	}//End displayMonthlyBreakdown()
 	
 	public void displayProgressToGoal(Goal currentGoal) {
 		/*
@@ -220,10 +176,10 @@ public class MonthlyBreakdown {
 		 * Ex: <Goal #>	Save $500 | Progress: 30.75% Complete
 		 */
 		
-		//Displaying:	<Name> | Progress:...
+		// Displaying:	<Name> | Progress:...
 		System.out.print("\t" + currentGoal.getName() + " | Progress: ");
 		
-		//Displaying:			  			 ...<Progress>% Complete
+		// Displaying:			  			 ...<Progress>% Complete
 		if(currentGoal.isComplete() == true)	//Check if goal is completed
 			System.out.print("Complete\n");
 		else {									//Print progress
@@ -268,10 +224,10 @@ public class MonthlyBreakdown {
 		 */
 		
 		//Goals Display -------------------------------------------------------------------------------------------
-		System.out.println("Goals:");
+		System.out.printf("Goals:\n");
 		
 		if(goals.size() <= 0)	//Check for empty LinkedList
-			System.out.println("[!] Alert - No goals added.\n");
+			System.out.printf("[!] Alert - No goals added.\n\n");
 		else {
 			for(int i = 1; i <= goals.size(); i++) {	//int i is set to 1 for printing list 1.) -> n.)
 				System.out.print(i + ".)");
@@ -280,10 +236,10 @@ public class MonthlyBreakdown {
 		}
 		
 		//Debts Display -------------------------------------------------------------------------------------------
-		System.out.println("Debts:");
+		System.out.printf("Debts:\n");
 		
 		if(debts.size() <= 0)	//Check for empty LinkedList
-			System.out.println("[!] Alert - No debts added.\n");
+			System.out.printf("[!] Alert - No debts added.\n\n");
 		else {
 			//Display total
 			float sum = 0;
