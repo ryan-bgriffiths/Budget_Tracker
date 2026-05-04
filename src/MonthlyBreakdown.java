@@ -75,7 +75,6 @@ public class MonthlyBreakdown {
 		
 		return total;
 	}//End getTotalEpenses()
-<<<<<<< HEAD
 	
 	public int displayMonthlyBreakdown(Scanner inFile) {
 		System.out.printf("\n%s\n", "-".repeat(50));
@@ -114,12 +113,13 @@ public class MonthlyBreakdown {
 		
 		//List out goals and debts
 		displayUpdates();
-=======
+		return 0;
+}
+
 
 
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
->>>>>>> 9a5b98d3947c2423b031def19e85241146ab3ed4
 		
 		// it's an infinite loop but I swear the return statements give it an end
 		while (true) {
