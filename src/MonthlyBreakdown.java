@@ -168,9 +168,9 @@ public class MonthlyBreakdown {
 		
 			
 	public int displayMonthlyBreakdown(Scanner inFile) {
-		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.printf("\n%s\n", "=".repeat(50));
 		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
-		System.out.printf("%s\n", "-".repeat(50));
+		System.out.printf("%s\n", "=".repeat(50));
 		
 		System.out.printf("Month: %s %d\n", name, year);
 		

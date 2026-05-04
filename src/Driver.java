@@ -147,7 +147,7 @@ public class Driver
 		// loop to make user enter number between start and end
 		while((choice < 0) || (choice > end))
 		{					
-			System.out.printf("\n%s\n","-".repeat(50));
+			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n\n", "[!] ERROR: Invalid Selection [!]");
 			System.out.printf("%s%d%s%d%s", "Please enter a selection (", 1, "-", end, ") or '0' to exit: " );
 			
@@ -181,11 +181,11 @@ public class Driver
         // ===== EXPENSE LIST HEADER =====
         // prints column labels for expense table
         System.out.println("Expenses:");
-        System.out.println("--------------------------------------------------");
+        System.out.printf("\n%s\n","=".repeat(50));
 
         // formatted columns: index, name, amount
         System.out.printf("%-5s %-25s %-10s%n", "#", "Name", "Amount");
-        System.out.println("--------------------------------------------------");
+        System.out.printf("\n%s\n","=".repeat(50));
 
         // ===== PAGINATION SETUP =====
         // tracks number of items printed (limit = MAX_ITEMS)
@@ -218,12 +218,12 @@ public class Driver
         // if no expenses were displayed, notify the user
         if (itemsShown == 0)
         {
-            System.out.println("No expenses found for this month.");
+            System.out.println("\n\tNo expenses found for this month.\n");
         }
 
         // ===== FOOTER =====
         // separator line for clean UI
-        System.out.println("--------------------------------------------------");
+        System.out.printf("\n%s\n","=".repeat(50));
 
     }
 	
@@ -248,8 +248,7 @@ public class Driver
 				//	5. Debt
 				//
 				// Please enter a selection (1-5) or '0' to exit: <user space>
-				
-				System.out.printf("\n%s\n","-".repeat(50));
+				System.out.printf("\n\n\n\n%s\n","=".repeat(50));
 				System.out.printf("%32s\n","BUDGET TRACKER");
 				
 				// keep centered with different month names
@@ -262,7 +261,7 @@ public class Driver
 				}
 				System.out.printf("%s\n", label);
 				
-				System.out.printf("%s\n","-".repeat(50));
+				System.out.printf("%s\n","=".repeat(50));
 				
 				displayOverallExpense(currentBreakdown, 0);
 				
@@ -271,7 +270,7 @@ public class Driver
 				System.out.printf("\t%s\n", "  1. Monthly Overview");
 				System.out.printf("\t%s\n", "  2. Add/Modify/Delete Expense");
 				System.out.printf("\t%s\n", "  3. Manage Goals");
-				System.out.printf("\t%s\n", "  4. Manage Debt");
+				System.out.printf("\t%s\n", "  4. Manage Debt\n");
 							
 				// get user input for menu choice
 				int choice = getMenuOption(4, inFile);
@@ -298,7 +297,7 @@ public class Driver
 		{
 		case 1:
 			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
-			System.out.printf("\n%s\n","-".repeat(50));	
+			System.out.printf("\n%s\n","=".repeat(50));	
 			
 			// if 0 standard return, if non-0 change to month number
 			int status;
@@ -330,19 +329,19 @@ public class Driver
 		
 		case 2:
 			// DO OPTION 2
-			System.out.printf("\n%s\n","-".repeat(50));
+			System.out.printf("\n%s\n","=".repeat(50));
 			ExpenseUI.showExpenseMenu(input, allMonths);
 			break;
 		
 		case 3:
 			// DO OPTION 4
-			System.out.printf("\n%s\n","-".repeat(50));
+			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering goals page...");
 			break;
 		
 		case 4:
 			// DO OPTION 5
-			System.out.printf("\n%s\n","-".repeat(50));
+			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
 			break;
 		}
