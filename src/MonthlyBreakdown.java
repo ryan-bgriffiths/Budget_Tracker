@@ -76,48 +76,7 @@ public class MonthlyBreakdown {
 		return total;
 	}//End getTotalEpenses()
 	
-	public int displayMonthlyBreakdown(Scanner inFile) {
-		System.out.printf("\n%s\n", "-".repeat(50));
-		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
-		System.out.printf("%s\n", "-".repeat(50));
-		
-		System.out.printf("Month: %s %d\n", name, year);
-		
-		//Display alert msg if no expenses have been entered.
-		if (monthlyExpenses.isEmpty()) {
-			System.out.printf("[!] Alert: No Expenses Have Been Entered.\n");
-			System.out.printf("Total Expenses: $0.00\n");
-			return 0;
-		}
-		
-		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
-		
-		// Formatted headline
-		System.out.printf("Expenses (by item):\n");
-		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
-		
-		//For each expense in the list(monthlyExpenses),
-		//  list out the expense.
-		int index = 1;
-		for(int i = 0; i < 5; i++) {
-			if (monthlyExpenses.size() >= index) {
-				monthlyExpenses.get(index - 1).listExpense(); 
-				index++;
-			}
-			else
-			{
-				System.out.printf("<<END OF EXPENSE LIST>>\n");
-				break;
-			}
-		}
-		
-		//List out goals and debts
-		displayUpdates();
-		return monthlyBreakdownMenu(inFile, index);
-		
-	}//End displayMonthlyBreakdown()
-
-
+  
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
 		
@@ -167,6 +126,53 @@ public class MonthlyBreakdown {
 		
 	}
 		
+
+	public int displayMonthlyBreakdown(Scanner inFile) {
+		//Header 
+		    System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+		
+		System.out.printf("Month: %s %d\n", name, year);
+		
+		// index used to track how many expenses have been printed
+		int index = 0;
+
+		
+		//Display alert msg if no expenses have been entered.
+		if (monthlyExpenses.isEmpty()) {
+			System.out.println("[!] Alert: No Expenses Have Been Entered.");
+			System.out.println("Total Expenses: $0.00");
+			return monthlyBreakdownMenu(inFile, index);	
+		}
+		
+		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
+		
+		// Formatted headline
+		System.out.println("Expenses (by item):");
+		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
+		
+		//For each expense in the list(monthlyExpenses),
+		//  list out the expense.
+		for(int i = 0; i < 5; i++) {
+			if (monthlyExpenses.size() > index) {
+				monthlyExpenses.get(index).listExpense(); 
+				index++;
+			}
+			else
+			{
+				System.out.println("\n<<END OF EXPENSE LIST>>\n");
+				break;
+			}
+		}
+		
+		//List out goals and debts
+		displayUpdates();
+
+		return monthlyBreakdownMenu(inFile, index);
+		
+	}//End displayMonthlyBreakdown()
+
 	
 	public void displayProgressToGoal(Goal currentGoal) {
 		/*
