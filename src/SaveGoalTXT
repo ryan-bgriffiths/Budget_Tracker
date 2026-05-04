@@ -1,0 +1,66 @@
+import java.io.*;
+import java.time.LocalDate;
+import java.util.LinkedList;
+
+//SaveGoalTXT: Saves the data from linked lists to files, then can retrieve the data
+//Has two functions, and one dependency. Dependent on linkedList from Goal
+public class SaveGoalTXT {
+
+	// saveToFile: Saves persistent data to files so it can be reused
+	// Inputs, doubly linked list, and the filename
+	public static void saveToFile(LinkedList<Expense> goalExpenses, String fileName) throws IOException {
+		File file = new File(fileName);
+
+		// Create file if it doesn't exist
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
+		// Overwrite file
+		PrintWriter writer = new PrintWriter(new FileWriter(file, false));
+
+		// Write each expense (same structure as SaveAsTXT)
+		for (Expense expense : goalExpenses) {
+			writer.println(expense.getAmount());
+			writer.println(expense.getDate());
+			writer.println(expense.getName());
+			writer.println(expense.isPaid() ? 0 : 1);
+			writer.println("---");
+		}
+
+		writer.close();
+	}
+
+	// loadFromFile: creates a linkedList from the previously saved file data
+	// input = files, Outputs = LinkedLists of goals
+	public static LinkedList<Expense> loadFromFile(String fileName) throws IOException {
+		LinkedList<Expense> goalExpenses = new LinkedList<>();
+		File file = new File(fileName);
+
+		// Prevents most errors
+		if (!file.exists() || file.length() == 0) {
+			return goalExpenses;
+		}
+
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		String line;
+
+		while ((line = reader.readLine()) != null) {
+			float amount = Float.parseFloat(line);
+			LocalDate date = LocalDate.parse(reader.readLine());
+			String name = reader.readLine();
+			int paidInput = Integer.parseInt(reader.readLine());
+			reader.readLine(); // skip "---"
+
+			boolean paid = (paidInput == 0);
+
+			Expense expense = new Expense(name, amount, date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
+					paid);
+
+			goalExpenses.add(expense);
+		}
+
+		reader.close();
+		return goalExpenses;
+	}
+}
