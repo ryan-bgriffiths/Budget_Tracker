@@ -13,7 +13,7 @@ public class ExpenseUI {
     // showExpenseMenu - landing page that routes user to add, modify, or delete
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
-    public static void showExpenseMenu(Scanner inFile, LinkedList<Expense> monthList) {
+    public static void showExpenseMenu(Scanner inFile, LinkedList<Expense>[] monthList) {
         int choice = -1;
         while (choice != 0) {
             System.out.printf("\n%s\n", "-".repeat(50));
@@ -37,7 +37,7 @@ public class ExpenseUI {
     // addExpense - collects expense info from user, creates Expense object, adds to list
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
-    public static void addExpense(Scanner inFile, LinkedList<Expense> monthList) {
+    public static void addExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.printf("%32s\n", "ADD EXPENSE");
         System.out.printf("%s\n\n", "-".repeat(50));
@@ -80,6 +80,8 @@ public class ExpenseUI {
                 }
             }
         }
+        
+        int month = parsedDate.getMonthValue();
 
         // get paid status
         boolean paid = false;
@@ -100,7 +102,7 @@ public class ExpenseUI {
             parsedDate.getDayOfMonth(),
             paid
         );
-        monthList.add(newExpense);
+        monthList[month-1].add(newExpense);
 
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.println("Expense added successfully.");
@@ -110,12 +112,23 @@ public class ExpenseUI {
     // deleteExpense - shows all expenses, user picks one to delete
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
-    public static void deleteExpense(Scanner inFile, LinkedList<Expense> monthList) {
+    public static void deleteExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.printf("%32s\n", "DELETE EXPENSE");
         System.out.printf("%s\n\n", "-".repeat(50));
-
-        if (monthList.isEmpty()) {
+        
+        System.out.print("\nEnter the number of the month with the expense you want to delete, or 0 to cancel: ");
+        int month = -1;
+        if (inFile.hasNextInt()) {
+        	month = inFile.nextInt();
+        }
+        if (month == 0) return;
+        if (month < 1 || month > 12) {
+            System.out.println("[!] ERROR: Invalid selection.");
+            return;
+        }
+        
+        if (monthList[month].isEmpty()) {
             System.out.println("No expenses have been entered yet.");
             return;
         }
@@ -123,7 +136,7 @@ public class ExpenseUI {
         // display all expenses with numbers
         System.out.println("Existing Expenses:");
         int count = 1;
-        for (Expense e : monthList) {
+        for (Expense e : monthList[month]) {
             System.out.printf("  %d. %-15s $%-10.2f %s%n",
                 count, e.getName(), e.getAmount(), e.getDate().toString());
             count++;
@@ -142,7 +155,7 @@ public class ExpenseUI {
         }
 
         // get target expense
-        Expense target = monthList.get(choice - 1);
+        Expense target = monthList[month].get(choice - 1);
 
         // confirm deletion
         System.out.printf("\nAre you sure you want to delete:\n%s - $%.2f - %s? (y/n): ",
@@ -153,7 +166,7 @@ public class ExpenseUI {
             return;
         }
 
-        monthList.remove(choice - 1);
+        monthList[month].remove(choice - 1);
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.println("Expense deleted successfully.");
     }
@@ -162,12 +175,23 @@ public class ExpenseUI {
     // modifyExpense - shows all expenses, user picks one and edits a field
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
-    public static void modifyExpense(Scanner inFile, LinkedList<Expense> monthList) {
+    public static void modifyExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.printf("%32s\n", "MODIFY EXPENSE");
         System.out.printf("%s\n\n", "-".repeat(50));
 
-        if (monthList.isEmpty()) {
+        System.out.print("\nEnter the number of the month with the expense you want to modify, or 0 to cancel: ");
+        int month = -1;
+        if (inFile.hasNextInt()) {
+        	month = inFile.nextInt();
+        }
+        if (month == 0) return;
+        if (month < 1 || month > 12) {
+            System.out.println("[!] ERROR: Invalid selection.");
+            return;
+        }
+        
+        if (monthList[month].isEmpty()) {
             System.out.println("No expenses have been entered yet.");
             return;
         }
@@ -175,7 +199,7 @@ public class ExpenseUI {
         // display all expenses
         System.out.println("Existing Expenses:");
         int count = 1;
-        for (Expense e : monthList) {
+        for (Expense e : monthList[month]) {
             System.out.printf("  %d. %-15s $%-10.2f %s%n",
                 count, e.getName(), e.getAmount(), e.getDate().toString());
             count++;
@@ -193,7 +217,7 @@ public class ExpenseUI {
             return;
         }
 
-        Expense target = monthList.get(choice - 1);
+        Expense target = monthList[month].get(choice - 1);
 
         // show edit options
         System.out.printf("\nEditing: %s - $%.2f - %s\n\n",

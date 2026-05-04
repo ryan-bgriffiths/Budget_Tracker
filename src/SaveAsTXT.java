@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 
 //SaveAsTXT: Saves the data from linked lists to files, then can retrieve the data
-//Has two functions, and one dependency. Dependant on linkedList class
+//Has two functions, and one dependency. Dependent on linkedList class
 public class SaveAsTXT {
 
 	

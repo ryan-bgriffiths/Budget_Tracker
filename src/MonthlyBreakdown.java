@@ -10,11 +10,11 @@ import java.util.LinkedList;
 public class MonthlyBreakdown {
 	
 	//Fields
-	public String name;
-	public int year;
-	public LinkedList<Expense> monthlyExpenses;
-	public LinkedList<Goal> goals;
-	public LinkedList<Debt> debts;
+	private String name;
+	private int year;
+	private LinkedList<Expense> monthlyExpenses;
+	private LinkedList<Goal> goals;
+	private LinkedList<Debt> debts;
 	
 	// Default constructor
 	public MonthlyBreakdown(String name, int year) {
@@ -38,6 +38,31 @@ public class MonthlyBreakdown {
 	
 	//Methods
 
+	/*retrieve name */
+	public String getName() {
+		return name;
+	}
+	
+	/*retrieve year */
+	public int getYear() {
+		return year;
+	}
+	
+	/*retrieve expense list */
+	public LinkedList<Expense> getExpenses() {
+		return monthlyExpenses;
+	}
+	
+	/*retrieve debt list */
+	public LinkedList<Debt> getDebts() {
+		return debts;
+	}
+	
+	/*retrieve goal list */
+	public LinkedList<Goal> getGoals() {
+		return goals;
+	}
+	
 	/*Method totals all current monthly expenses. */
 	public float getTotalExpenses() {
 		float total = 0;
@@ -96,7 +121,7 @@ public class MonthlyBreakdown {
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
 >>>>>>> 9a5b98d3947c2423b031def19e85241146ab3ed4
 		
-		//  i know it's an infinite loop but I swear the return statements give it an end
+		// it's an infinite loop but I swear the return statements give it an end
 		while (true) {
 			// display menu items
 			System.out.printf("\n\t%s\n", "  1. Return to Home Page");
@@ -115,7 +140,7 @@ public class MonthlyBreakdown {
 					return 0;
 				
 				case 2:
-					System.out.println("Expenses (by item):");
+					System.out.printf("\nExpenses (by item):\n");
 					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 					
 					for(int i = 0; i < 10; i++) {
@@ -125,7 +150,7 @@ public class MonthlyBreakdown {
 						}
 						else
 						{
-							System.out.println("\n<<END OF EXPENSE LIST>>\n");
+							System.out.printf("\n<<END OF EXPENSE LIST>>\n");
 							break;
 						}
 					}
@@ -134,7 +159,7 @@ public class MonthlyBreakdown {
 				case 3: 
 				// display month items
 					System.out.printf("\n%s\n", "Enter the number of the month you would like to swap to (1=Jan, 2=Feb, ect)");
-				
+			
 					return Driver.getMenuOption(12, inFile);
 				}
 			}	
@@ -157,8 +182,7 @@ public class MonthlyBreakdown {
 		if (monthlyExpenses.isEmpty()) {
 			System.out.println("[!] Alert: No Expenses Have Been Entered.");
 			System.out.println("Total Expenses: $0.00");
-			monthlyBreakdownMenu(inFile, index);
-			return 0;
+			return monthlyBreakdownMenu(inFile, index);	
 		}
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());

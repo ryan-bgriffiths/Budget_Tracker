@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+// << NO LONGER COVERS PRETTY MUCH ANY CODE>>
+
 //
 // ExpenseUITest - JUnit tests for user story 2 (add, modify, delete expenses)
 // Dependencies: Expense; none
