@@ -129,7 +129,7 @@ public class MonthlyBreakdown {
 
 	public int displayMonthlyBreakdown(Scanner inFile) {
 		//Header 
-		    System.out.println("\t╔══════════════════════════════╗");
+		System.out.println("\t╔══════════════════════════════╗");
         System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
         System.out.println("\t╚══════════════════════════════╝\n");
 		
