@@ -18,13 +18,16 @@ public class ExpenseUI {
     public static void showExpenseMenu(Scanner inFile, LinkedList<Expense>[] monthList) {
         int choice = -1;
         while (choice != 0) {
-            System.out.printf("\n%s\n", "-".repeat(50));
-            System.out.printf("%32s\n", "EXPENSE MENU");
-            System.out.printf("%s\n", "-".repeat(50));
-            System.out.printf("\n\t%s\n", "Options:");
+        	//Header 
+        	System.out.println("\t╔══════════════════════════════╗");
+            System.out.println("\t║   ****  EXPENSE MENU  ****   ║");
+            System.out.println("\t╚══════════════════════════════╝\n");
+        	
+            //Options 
+            System.out.printf("\t%s\n", "Options:");
             System.out.printf("\t%s\n", "  1. Add Expense");
             System.out.printf("\t%s\n", "  2. Modify Expense");
-            System.out.printf("\t%s\n", "  3. Delete Expense");
+            System.out.printf("\t%s\n", "  3. Delete Expense\n");
             choice = Driver.getMenuOption(3, inFile);
 
             switch (choice) {
@@ -41,8 +44,11 @@ public class ExpenseUI {
     //
     public static void addExpense(Scanner inFile, LinkedList<Expense>[] allMonths) {
         System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.printf("%32s\n", "ADD EXPENSE");
-        System.out.printf("%s\n\n", "-".repeat(50));
+        
+        
+        System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║   ****  ADD EXPENSE  ****    ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
 
         // get name
         inFile.nextLine();
@@ -186,11 +192,13 @@ public class ExpenseUI {
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
     public static void deleteExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
-        System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.printf("%32s\n", "DELETE EXPENSE");
-        System.out.printf("%s\n\n", "-".repeat(50));
         
-        System.out.print("\nEnter the number of the month with the expense you want to delete, or 0 to cancel: ");
+    	//Header 
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println(  "\t║   ****  DELETE EXPENSE ****  ║");
+        System.out.println(  "\t╚══════════════════════════════╝\n");
+        
+        System.out.print("Enter the number of the month with the expense you want to delete, or 0 to cancel: ");
         int month = -1;
         if (inFile.hasNextInt()) {
         	month = inFile.nextInt();
@@ -259,11 +267,14 @@ public class ExpenseUI {
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
     public static void modifyExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
-        System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.printf("%32s\n", "MODIFY EXPENSE");
-        System.out.printf("%s\n\n", "-".repeat(50));
+        
+        //Header 
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("  \t║  ****  MODIFY EXPENSE  ****  ║");
+        System.out.println("  \t╚══════════════════════════════╝\n");
+        
 
-        System.out.print("\nEnter the number of the month with the expense you want to modify, or 0 to cancel: ");
+        System.out.print("Enter the number of the month with the expense you want to modify, or 0 to cancel: ");
         int month = -1;
         if (inFile.hasNextInt()) {
         	month = inFile.nextInt();

@@ -179,13 +179,14 @@ public class Driver
         System.out.printf("Total Spending: $%.2f%n%n", totalSpending);
 
         // ===== EXPENSE LIST HEADER =====
-        // prints column labels for expense table
-        System.out.println("Expenses:");
-        System.out.printf("\n%s\n","=".repeat(50));
+        // prints column labels for expense table      
+        System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ------    Expenses    ------ ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
 
         // formatted columns: index, name, amount
         System.out.printf("%-5s %-25s %-10s%n", "#", "Name", "Amount");
-        System.out.printf("\n%s\n","=".repeat(50));
+        System.out.printf("%s\n","-".repeat(50));
 
         // ===== PAGINATION SETUP =====
         // tracks number of items printed (limit = MAX_ITEMS)
@@ -265,7 +266,7 @@ public class Driver
 				
 				displayOverallExpense(currentBreakdown, 0);
 				
-				System.out.printf("\n\t%s\n", "Start Menu Options:");
+				System.out.printf("\n\t%s\n\n", "Start Menu Options:");
 
 				System.out.printf("\t%s\n", "  1. Monthly Overview");
 				System.out.printf("\t%s\n", "  2. Add/Modify/Delete Expense");
@@ -274,6 +275,7 @@ public class Driver
 							
 				// get user input for menu choice
 				int choice = getMenuOption(4, inFile);
+				
 				
 				return choice;
 			}

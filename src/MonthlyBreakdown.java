@@ -76,48 +76,6 @@ public class MonthlyBreakdown {
 		return total;
 	}//End getTotalEpenses()
 	
-	public int displayMonthlyBreakdown(Scanner inFile) {
-		System.out.printf("\n%s\n", "-".repeat(50));
-		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
-		System.out.printf("%s\n", "-".repeat(50));
-		
-		System.out.printf("Month: %s %d\n", name, year);
-		
-		//Display alert msg if no expenses have been entered.
-		if (monthlyExpenses.isEmpty()) {
-			System.out.println("[!] Alert: No Expenses Have Been Entered.");
-			System.out.println("Total Expenses: $0.00");
-			return 0;
-		}
-		
-		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
-		
-		// Formatted headline
-		System.out.println("Expenses (by item):");
-		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
-		
-		//For each expense in the list(monthlyExpenses),
-		//  list out the expense.
-		int index = 1;
-		for(int i = 0; i < 5; i++) {
-			if (monthlyExpenses.size() >= index) {
-				monthlyExpenses.get(index - 1).listExpense(); 
-				index++;
-			}
-			else
-			{
-				System.out.println("<<END OF EXPENSE LIST>>");
-				break;
-			}
-		}
-		
-		//List out goals and debts
-		displayUpdates();
-		return 0;
-}
-
-
-
 	// Prints the menu and gets user input
 	public int monthlyBreakdownMenu(Scanner inFile, int index) {
 		
@@ -168,9 +126,10 @@ public class MonthlyBreakdown {
 		
 			
 	public int displayMonthlyBreakdown(Scanner inFile) {
-		System.out.printf("\n%s\n", "=".repeat(50));
-		System.out.printf("%31s\n", "MONTHLY BREAKDOWN");
-		System.out.printf("%s\n", "=".repeat(50));
+		//Header 
+		System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
 		
 		System.out.printf("Month: %s %d\n", name, year);
 		
