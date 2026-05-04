@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
 import java.time.format.TextStyle;
+import java.util.Comparator;
+import java.util.Collections;
 //
 // Driver - holds the main function as well as utilities directly used by the main function including a function to get menu options 
 //			and the start menu itself
@@ -51,6 +53,60 @@ public class Driver
 		SaveAsTXT.loadFromFile("DecemberExpenses.txt")
 		};
 		
+		int currentMonthIndex = LocalDate.now().getMonthValue() - 1;
+        int prevMonthIndex = (currentMonthIndex == 0) ? 11 : currentMonthIndex - 1;
+        
+        for (Expense e : allMonths[prevMonthIndex]) {
+            if (e.isRecurring()) {
+
+                // figure out what day to use in the current month
+                // if the original day is beyond the length of current month, use last day
+                // example: day 31 in a month that only has 30 days becomes day 30
+                int originalDay = e.getDate().getDayOfMonth();
+                int currentYear = LocalDate.now().getYear();
+                int currentMonthNumber = LocalDate.now().getMonthValue();
+
+                // lengthOfMonth() returns how many days are in that month
+                // it accounts for leap years automatically
+                int maxDay = LocalDate.of(currentYear, currentMonthNumber, 1)
+                                      .lengthOfMonth();
+                int targetDay = Math.min(originalDay, maxDay);
+
+                // build the new date in the current month
+                LocalDate newDate = LocalDate.of(currentYear, currentMonthNumber, targetDay);
+
+                // check if this recurring entry already exists in the current month
+                // to avoid duplicating it every time the program opens
+                boolean alreadyExists = false;
+                for (Expense existing : allMonths[currentMonthIndex]) {
+                    if (existing.getName().equals(e.getName()) &&
+                        existing.getDate().equals(newDate)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists) {
+                    // create a copy with the updated date
+                    Expense recurringCopy = new Expense(
+                        e.getName(), e.getAmount(),
+                        currentYear, currentMonthNumber, targetDay,
+                        e.isPaid(), e.isIncome(), true // keep isRecurring = true
+                    );
+                    allMonths[currentMonthIndex].add(recurringCopy);
+                }
+            }
+        }
+
+        // sort the current month after adding recurring entries
+        Collections.sort(allMonths[currentMonthIndex],
+            new Comparator<Expense>() {
+                public int compare(Expense a, Expense b) {
+                    return a.getDate().compareTo(b.getDate());
+                }
+            }
+        );
+        
 		input = new Scanner(System.in);
 		goalStub = new LinkedList<Goal>();
 		debtStub = new LinkedList<Debt>();
@@ -213,7 +269,7 @@ public class Driver
 				System.out.printf("\n\t%s\n", "Start Menu Options:");
 
 				System.out.printf("\t%s\n", "  1. Monthly Overview");
-				System.out.printf("\t%s\n", "  2. Add Expense");
+				System.out.printf("\t%s\n", "  2. Add/Modify/Delete Expense");
 				System.out.printf("\t%s\n", "  3. Manage Goals");
 				System.out.printf("\t%s\n", "  4. Manage Debt");
 							
