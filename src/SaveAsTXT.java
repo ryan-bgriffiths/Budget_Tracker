@@ -32,6 +32,8 @@ public class SaveAsTXT {
 				writer.println(expense.getDate());
 				writer.println(expense.getName());
 				writer.println(expense.isPaid() ? 0 : 1);
+				writer.println(expense.isIncome() ? 1 : 0);    
+                writer.println(expense.isRecurring() ? 1 : 0);
 				writer.println("---");
 			}
 
@@ -62,13 +64,20 @@ public class SaveAsTXT {
 				LocalDate date = LocalDate.parse(reader.readLine());
 				String name = reader.readLine();
 				int paidInput = Integer.parseInt(reader.readLine());
+				boolean paid = (paidInput == 0);
+				
+				int incomeInput = Integer.parseInt(reader.readLine());
+                boolean isIncome = (incomeInput == 1);
+                
+                int recurringInput = Integer.parseInt(reader.readLine());
+                boolean isRecurring = (recurringInput == 1);
 				reader.readLine(); // skip "---"
 
-				boolean paid = (paidInput == 0);
+				
 				
 				Expense expense = new Expense(
 					name, amount, date.getYear(), 
-					date.getMonthValue(), date.getDayOfMonth(), paid
+					date.getMonthValue(), date.getDayOfMonth(), paid, isIncome, isRecurring
 				);
 
 				expenseList.add(expense);

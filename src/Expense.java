@@ -13,6 +13,8 @@ public class Expense {
 	private LocalDate date;
 	private String name;
 	private boolean paid; 
+	private boolean isIncome;
+	private boolean isRecurring;
 	
 	//Constructor
 	public Expense(String name, float amount, int year, int month, int day)
@@ -20,7 +22,9 @@ public class Expense {
 		this.name = name;
 		this.amount = amount;
 		this.date = LocalDate.of(year, month, day);
-		this.paid = false;	
+		this.paid = false;
+		this.isIncome = false;
+        this.isRecurring = false;
 	}
 	
 	//Constructor (paid option)
@@ -29,7 +33,20 @@ public class Expense {
 		this.name = name;
 		this.amount = amount;
 		this.date = LocalDate.of(year, month, day);
-		this.paid = paid;	
+		this.paid = paid;
+		this.isIncome = false;
+        this.isRecurring = false;
+	}
+	
+	//New Constructor with all fields
+	public Expense(String name, float amount, int year, int month, int day, boolean paid, boolean isIncome, boolean isRecurring)
+	{
+		this.name = name;
+		this.amount = amount;
+		this.date = LocalDate.of(year, month, day);
+		this.paid = paid;
+		this.isIncome = false;
+        this.isRecurring = false;
 	}
 	
 	//Getter methods
@@ -49,6 +66,14 @@ public class Expense {
 		return paid;
 	}
 	
+	public boolean isIncome() {
+		return isIncome;
+	}
+	
+	public boolean isRecurring() {
+		return isRecurring;
+	}
+	
 	//Setter methods
 	public void setAmount(float amount){
 		this.amount = amount;
@@ -66,9 +91,19 @@ public class Expense {
 		this.paid = paid;
 	}
 	
+	public void setIncome(boolean isIncome) { 
+		this.isIncome = isIncome; 
+	}
+    public void setRecurring(boolean isRecurring) { 
+    	this.isRecurring = isRecurring; 
+    }
 	//Method outputs formatted expense.
 	public void listExpense() {
-		System.out.printf("%-10s %-10.2f %-12s %-10s\n",
-				name, amount, date.toString(), paid ? "Paid" : "Unpaid");
+		String tag = "";
+        if (isIncome) tag += "[INCOME] ";
+        if (isRecurring) tag += "[RECURRING] ";
+        System.out.printf("%-10s %-10.2f %-12s %-10s %s\n",
+            name, amount, date.toString(),
+            paid ? "Paid" : "Unpaid", tag);
 	}
 }

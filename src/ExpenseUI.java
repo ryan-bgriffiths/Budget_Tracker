@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Comparator;
+import java.util.Collections;
 
 //
 // ExpenseUI - handles the user interface for adding, modifying, and deleting expenses
@@ -37,7 +39,7 @@ public class ExpenseUI {
     // addExpense - collects expense info from user, creates Expense object, adds to list
     // Scanner inFile, LinkedList<Expense> monthList; void
     //
-    public static void addExpense(Scanner inFile, LinkedList<Expense>[] monthList) {
+    public static void addExpense(Scanner inFile, LinkedList<Expense>[] allMonths) {
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.printf("%32s\n", "ADD EXPENSE");
         System.out.printf("%s\n\n", "-".repeat(50));
@@ -64,24 +66,43 @@ public class ExpenseUI {
 
         // get date - press enter for today
         inFile.nextLine();
-        System.out.print("Enter date (YYYY-MM-DD), or press Enter for today: ");
-        String dateInput = inFile.nextLine().trim();
-        LocalDate parsedDate;
-        if (dateInput.isEmpty()) {
-            parsedDate = LocalDate.now();
-        } else {
-            parsedDate = null;
-            while (parsedDate == null) {
-                try {
-                    parsedDate = LocalDate.parse(dateInput);
-                } catch (DateTimeParseException e) {
-                    System.out.print("[!] ERROR: Use YYYY-MM-DD. Try again: ");
-                    dateInput = inFile.nextLine().trim();
+        LocalDate parsedDate = null;
+        LocalDate today = LocalDate.now();
+        LocalDate oneYearAgo = today.minusYears(1);
+        
+        while (parsedDate == null) {
+            System.out.print("Enter date (YYYY-MM-DD), or press Enter for today: ");
+            String dateInput = inFile.nextLine().trim();
+
+            // if user pressed enter with no input, use today
+            if (dateInput.isEmpty()) {
+                parsedDate = today;
+                break;
+            }
+
+            try {
+                LocalDate candidate = LocalDate.parse(dateInput);
+
+                // reject dates more than one year in the past
+                if (candidate.isBefore(oneYearAgo)) {
+                    System.out.println("[!] ERROR: Date cannot be more than one year ago.");
+                    continue; // go back to top of loop and ask again
                 }
+
+                // reject dates in the future
+                if (candidate.isAfter(today)) {
+                    System.out.println("[!] ERROR: Date cannot be in the future.");
+                    continue;
+                }
+
+                // date passed all checks
+                parsedDate = candidate;
+
+            } catch (DateTimeParseException e) {
+                System.out.println("[!] ERROR: Use YYYY-MM-DD format. Try again.");
             }
         }
         
-        int month = parsedDate.getMonthValue();
 
         // get paid status
         boolean paid = false;
@@ -93,20 +114,72 @@ public class ExpenseUI {
             else if (paidInput.equals("n")) { paid = false; validInput = true; }
             else { System.out.println("[!] ERROR: Enter y or n."); }
         }
-
+        
+        // get income toggle
+        // income entries are stored in the same list as expenses
+        // but flagged with isIncome = true so they can be displayed separately
+        boolean isIncome = false;
+        validInput = false;
+        while (!validInput) {
+            System.out.print("Is this income? (y/n): ");
+            String incomeInput = inFile.next().trim().toLowerCase();
+            if (incomeInput.equals("y")) { isIncome = true; validInput = true; }
+            else if (incomeInput.equals("n")) { isIncome = false; validInput = true; }
+            else { System.out.println("[!] ERROR: Enter y or n."); }
+        }
+        
+        // get recurring toggle
+        // recurring entries get auto-copied into the next month on startup
+        boolean isRecurring = false;
+        validInput = false;
+        while (!validInput) {
+            System.out.print("Is this a recurring entry? (y/n): ");
+            String recurringInput = inFile.next().trim().toLowerCase();
+            if (recurringInput.equals("y")) { isRecurring = true; validInput = true; }
+            else if (recurringInput.equals("n")) { isRecurring = false; validInput = true; }
+            else { System.out.println("[!] ERROR: Enter y or n."); }
+        }
+        
         // create Expense object and add to list
         Expense newExpense = new Expense(
             name, amount,
             parsedDate.getYear(),
             parsedDate.getMonthValue(),
             parsedDate.getDayOfMonth(),
-            paid
+            paid, isIncome, isRecurring
         );
-        monthList[month-1].add(newExpense);
+     // put the expense in the correct month's list based on its date
+        // this handles cases where user enters a date from a different month
+        int targetMonthIndex = parsedDate.getMonthValue() - 1;
+        allMonths[targetMonthIndex].add(newExpense);
+
+        // sort the target month's list by date so entries stay in chronological order
+        // Collections.sort with a Comparator compares two expenses by their dates
+        Collections.sort(allMonths[targetMonthIndex],
+            new Comparator<Expense>() {
+                public int compare(Expense a, Expense b) {
+                    return a.getDate().compareTo(b.getDate());
+                }
+            }
+        );
+
+        // save the updated list to file immediately so data persists
+        String[] fileNames = {
+            "JanuaryExpenses.txt", "FebruaryExpenses.txt", "MarchExpenses.txt",
+            "AprilExpenses.txt", "MayExpenses.txt", "JuneExpenses.txt",
+            "JulyExpenses.txt", "AugustExpenses.txt", "SeptemberExpenses.txt",
+            "OctoberExpenses.txt", "NovemberExpenses.txt", "DecemberExpenses.txt"
+        };
+        SaveAsTXT.saveToFile(allMonths[targetMonthIndex], fileNames[targetMonthIndex]);
 
         System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.println("Expense added successfully.");
+        if (isIncome) {
+            System.out.println("Income added successfully.");
+        } else {
+            System.out.println("Expense added successfully.");
+        }
     }
+    
 
     //
     // deleteExpense - shows all expenses, user picks one to delete
@@ -127,7 +200,7 @@ public class ExpenseUI {
             System.out.println("[!] ERROR: Invalid selection.");
             return;
         }
-        
+        int index = month - 1;
         if (monthList[month].isEmpty()) {
             System.out.println("No expenses have been entered yet.");
             return;
@@ -166,9 +239,19 @@ public class ExpenseUI {
             return;
         }
 
-        monthList[month].remove(choice - 1);
+        monthList[index].remove(choice - 1);
+        
+     // save updated list to file
+        String[] fileNames = {
+            "JanuaryExpenses.txt", "FebruaryExpenses.txt", "MarchExpenses.txt",
+            "AprilExpenses.txt", "MayExpenses.txt", "JuneExpenses.txt",
+            "JulyExpenses.txt", "AugustExpenses.txt", "SeptemberExpenses.txt",
+            "OctoberExpenses.txt", "NovemberExpenses.txt", "DecemberExpenses.txt"
+        };
+        SaveAsTXT.saveToFile(monthList[index], fileNames[index]);
+        
         System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.println("Expense deleted successfully.");
+        System.out.println("Entry deleted successfully.");
     }
 
     //
@@ -190,8 +273,8 @@ public class ExpenseUI {
             System.out.println("[!] ERROR: Invalid selection.");
             return;
         }
-        
-        if (monthList[month].isEmpty()) {
+        int index = month - 1;
+        if (monthList[index].isEmpty()) {
             System.out.println("No expenses have been entered yet.");
             return;
         }
@@ -199,7 +282,7 @@ public class ExpenseUI {
         // display all expenses
         System.out.println("Existing Expenses:");
         int count = 1;
-        for (Expense e : monthList[month]) {
+        for (Expense e : monthList[index]) {
             System.out.printf("  %d. %-15s $%-10.2f %s%n",
                 count, e.getName(), e.getAmount(), e.getDate().toString());
             count++;
@@ -217,7 +300,7 @@ public class ExpenseUI {
             return;
         }
 
-        Expense target = monthList[month].get(choice - 1);
+        Expense target = monthList[index].get(choice - 1);
 
         // show edit options
         System.out.printf("\nEditing: %s - $%.2f - %s\n\n",
@@ -226,7 +309,9 @@ public class ExpenseUI {
         System.out.println("  2. Edit amount");
         System.out.println("  3. Edit date");
         System.out.println("  4. Toggle paid status");
-        int field = Driver.getMenuOption(4, inFile);
+        System.out.println("  5. Toggle income status");
+        System.out.println("  6. Toggle recurring status");
+        int field = Driver.getMenuOption(6, inFile); // change 4 to 6
 
         inFile.nextLine();
         switch (field) {
@@ -251,26 +336,58 @@ public class ExpenseUI {
                 target.setAmount(newAmount);
                 break;
             case 3:
-                System.out.print("New date (YYYY-MM-DD): ");
-                String newDateInput = inFile.nextLine().trim();
-                try {
-                    LocalDate newDate = LocalDate.parse(newDateInput);
-                    target.setDate(
-                        newDate.getYear(),
-                        newDate.getMonthValue(),
-                        newDate.getDayOfMonth()
-                    );
-                } catch (DateTimeParseException e) {
-                    System.out.println("[!] ERROR: Invalid format. Date not updated.");
+                LocalDate today = LocalDate.now();
+                LocalDate oneYearAgo = today.minusYears(1);
+                LocalDate newDate = null;
+                while (newDate == null) {
+                    System.out.print("New date (YYYY-MM-DD): ");
+                    String newDateInput = inFile.nextLine().trim();
+                    try {
+                        LocalDate candidate = LocalDate.parse(newDateInput);
+                        if (candidate.isBefore(oneYearAgo)) {
+                            System.out.println("[!] ERROR: Date cannot be more than one year ago.");
+                            continue;
+                        }
+                        if (candidate.isAfter(today)) {
+                            System.out.println("[!] ERROR: Date cannot be in the future.");
+                            continue;
+                        }
+                        newDate = candidate;
+                    } catch (DateTimeParseException e) {
+                        System.out.println("[!] ERROR: Invalid format. Use YYYY-MM-DD.");
+                    }
                 }
+                target.setDate(newDate.getYear(), newDate.getMonthValue(), newDate.getDayOfMonth());
+                Collections.sort(monthList[index],
+                    new Comparator<Expense>() {
+                        public int compare(Expense a, Expense b) {
+                            return a.getDate().compareTo(b.getDate());
+                        }
+                    }
+                );
                 break;
             case 4:
                 target.setPaid(!target.isPaid());
                 System.out.println("Paid status set to: " +
                     (target.isPaid() ? "Paid" : "Unpaid"));
                 break;
+            case 5:
+                target.setIncome(!target.isIncome());
+                System.out.println("Income status set to: " + (target.isIncome() ? "Income" : "Expense"));
+                break;
+            case 6:
+                target.setRecurring(!target.isRecurring());
+                System.out.println("Recurring status set to: " + (target.isRecurring() ? "Recurring" : "Not recurring"));
+                break;  
         }
-
+        String[] fileNames = {
+        	    "JanuaryExpenses.txt", "FebruaryExpenses.txt", "MarchExpenses.txt",
+        	    "AprilExpenses.txt", "MayExpenses.txt", "JuneExpenses.txt",
+        	    "JulyExpenses.txt", "AugustExpenses.txt", "SeptemberExpenses.txt",
+        	    "OctoberExpenses.txt", "NovemberExpenses.txt", "DecemberExpenses.txt"
+        	};
+        	SaveAsTXT.saveToFile(monthList[index], fileNames[index]);
+        	
         System.out.printf("\n%s\n", "-".repeat(50));
         System.out.println("Expense modified successfully.");
     }
