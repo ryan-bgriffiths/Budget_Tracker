@@ -2,107 +2,125 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class GoalUi {
-	private LinkedList<Goal> goals; //All objects related to goals
-	private Scanner input; //User input
-	
-	public GoalUi() {
-		goals = new LinkedList<Goal>(); //List to store all goals
-		input = new Scanner(System.in); //User input to type into console
+	public static void goalMenu(Scanner inFile, LinkedList<Goal> goals) { // Menu
+		int choice = -1;
+
+		while (choice != 0) {
+			System.out.printf("\n%s\n", "-".repeat(50));
+			System.out.printf("%32s\n", "GOAL MENU");
+			System.out.printf("%s\n", "-".repeat(50));
+			System.out.printf("\n\t%s\n", "Options:");
+			System.out.printf("\t%s\n", "  1. Add Goal");
+			System.out.printf("\t%s\n", "  2. Modify Goal");
+			System.out.printf("\t%s\n", "  3. Delete Goal");
+
+			choice = Driver.getMenuOption(2, inFile);
+
+			switch (choice) {
+			case 1:
+				addGoal(inFile, goals);
+				break;
+			case 2:
+				deleteGoal(inFile, goals);
+				break;
+			}
+		}
 	}
-	
-	private Goal goalInput() { //Method for user input and for goals
-		System.out.println("Are you saving a goal? true or false? "); //Everything below collecting input
-		boolean savingsOrBudget = input.nextBoolean();
-		
-		System.out.println("What year? ");
-		int startYear = input.nextInt();
-		
-		System.out.println("What month? ");
-		int startMonth = input.nextInt();
-		
-		System.out.println("What day? ");
-		int startDay = input.nextInt();
-		
-		System.out.println("End year? ");
-		int endYear = input.nextInt();
-		
-		System.out.println("End month? ");
-		int endMonth = input.nextInt();
-		
-		System.out.println("End day? ");
-		int endDay = input.nextInt();
-		
-		System.out.println("What is the name? ");
-		String name = input.nextLine();
-		
-		System.out.println("Any description? ");
-		String description = input.nextLine();
-		
-		System.out.println("Amount? ");
-		float amount = input.nextFloat();
-		
-		System.out.println("Progress? ");
-		float progress = input.nextFloat();
-		
-		return new Goal( //Calls from Goal.java and returns with new inputed values
-				savingsOrBudget,
-				startYear,
-				startMonth,
-				startDay,
-				endYear,
-				endMonth,
-				endDay,
-				name,
-				description,
-				amount,
-				progress
-			);
-				
-	}
-	
-	private void addGoal() { //Adding new goal
-		Goal goal = goalInput();
-		goals.add(goal);
-		sortbyDate();
-		System.out.println("Goal added");
-	}
-	
-	private void deleteGoal() { //Delete goal
-		System.out.println("Select what goal to delete");
-		String name = input.nextLine();
-		
-		for(int i = 0; i < goals.size(); i++) {
-			if(goals.get(i).getName().equalsIgnoreCase(name)) { //Check if goals name matched with user input
-				goals.remove(i);
-				System.out.println("Sucessfully removed. ");
+
+	public static void addGoal(Scanner inFile, LinkedList<Goal> goals) { // Collect goal and goal information from the user and adds to list
+		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.printf("%32s\n", "ADD GOAL");
+		System.out.printf("%s\n\n", "-".repeat(50));
+
+		boolean savingsOrBudget = false;
+		boolean validType = false;
+
+		while (!validType) {
+			System.out.print("Is this a saving goal? (y/n); ");
+			String typeInput = inFile.next().trim().toLowerCase();
+
+			if (typeInput.equals("y")) {
+				savingsOrBudget = true;
+				validType = true;
+			} else if (typeInput.equals("n")) {
+				savingsOrBudget = false;
+				validType = false;
+			} else {
 				return;
 			}
 		}
+		System.out.print("Enter Start year?: ");
+		int startYear = inFile.nextInt();
+
+		System.out.print("Enter Start month?: ");
+		int startMonth = inFile.nextInt();
+
+		System.out.print("Enter Start day?: ");
+		int startDay = inFile.nextInt();
+
+		System.out.print("Enter end year: ");
+		int endYear = inFile.nextInt();
+
+		System.out.print("Enter end month: ");
+		int endMonth = inFile.nextInt();
+
+		System.out.print("Enter end day: ");
+		int endDay = inFile.nextInt();
+
+		System.out.print("Enter goal name: ");
+		String name = inFile.nextLine().trim();
+
+		System.out.print("Enter description: ");
+		String description = inFile.nextLine().trim();
+
+		System.out.print("Enter amount: ");
+		float amount = inFile.nextFloat();
+
+		System.out.print("Enter progress: ");
+		float progress = inFile.nextFloat();
+
+		Goal newGoal = new Goal(savingsOrBudget, startYear, startMonth, startDay, endYear, endMonth, endDay, name,
+				description, amount, progress);
+		goals.add(newGoal);
+		sortByDate(goals);
+
+		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.println("Goal added.");
 	}
-	
-	private void sortbyDate() { //Sort goals by dates
-		goals.sort((g1, g2) -> g1.getEndDate().compareTo(g2.getEndDate())); //Sort list from Earlier dates ---> later dates
-	}
-	
-	public void run() { //Starts the UI
-		int choice = 0; //Will store user choice
-		while (choice != 5) {
-			System.out.println("Menu");
-			System.out.println("1. Add Goal");
-			System.out.println("2. Delete Goal");
-			System.out.println("3. Edit Goal");
-			System.out.println("4. View Goals");
-			System.out.println("5. Exit");
-			System.out.print("Choose: ");
-			
-			choice = input.nextInt();
-			input.nextLine();
-			
-			if (choice == 1) {
-				addGoal();
-			} else if (choice == 2) {
-				deleteGoal();
-			}
+
+	public static void deleteGoal(Scanner inFile, LinkedList<Goal> goals) { //User picks one goal to delete
+		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.printf("%32s\n", "DELETE GOAL");
+		System.out.printf("%s\n\n", "-".repeat(50));
+
+		if (goals.isEmpty()) {
+			System.out.println("No goals have been entered yet.");
+			return;
 		}
+
+		for (int i = 0; i < goals.size(); i++) {
+			System.out.println((i + 1) + ". " + goals.get(i).getName());
+		}
+
+		System.out.print("\nEnter goal number to delete, or 0 to cancel: ");
+		int choice = inFile.nextInt();
+
+		if (choice == 0) {
+			return;
+		}
+
+		if (choice < 1 || choice > goals.size()) {
+			System.out.println("[!] ERROR: Invalid selection.");
+			return;
+		}
+
+		goals.remove(choice - 1);
+
+		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.println("Goal deleted successfully.");
+	}
+
+	public static void sortByDate(LinkedList<Goal> goals) { //Sort date from earliest to latest.
+		goals.sort((g1, g2) -> g1.getEndDate().compareTo(g2.getEndDate()));
 	}
 }
