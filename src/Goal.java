@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class Goal {
 
     // Fields
-    private boolean savingsOrBudget;
+    private boolean savingsOrBudget;	//True for savings, false for budget
     private LocalDate startDate;
     private LocalDate endDate;
     String name; 
@@ -14,25 +14,107 @@ public class Goal {
     LinkedList<Expense> expenses;
     boolean complete; 
 
-    // Constructors
+    // Constructor
+    public Goal(
+    		boolean savingsOrBudget, 
+    		int startYear,	//startDate
+    		int startMonth,
+    		int startDay,
+    		int endYear,	//endDate
+    		int endMonth,
+    		int endDay,
+    		String name, 
+    		String description, 
+    		float amount, 
+    		float progress) {
+    	this.savingsOrBudget = savingsOrBudget;
+    	startDate = LocalDate.of(startYear, startMonth, startDay);
+    	endDate = LocalDate.of(endYear, startMonth, endMonth);
+    	this.name = name;
+    	this.description = description;
+    	this.amount = amount;
+    	this.progress = progress;
+    	expenses = new LinkedList<Expense>();
+    	complete = false;
+    }
 
     // Methods 
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
-    public String getName()
-    {
-    	return "";
+ 
+    //Name Methods
+    public String getName() {
+    	return name;
     }
     
+    public void setName(String name) {
+    	this.name = name;
+    }
     
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
-    public float getProgress()
-    {
-    	return 0;
+    //Description Methods
+    public String getDescription() {
+    	return description;
+    }
+    
+    public void setDescription(String desc) {
+    	description = desc;
+    }
+    
+    //Amount Methods
+    public float getAmount() {
+    	return amount;
+    }
+    
+    public void setAmount(float amount) {
+    	this.amount = amount;
+    }
+    
+    //Type Methods (True for savings, false for budget)
+    public boolean getType() {
+    	return savingsOrBudget;
+    }
+    
+    public void setType(boolean savingsOrBudget) {
+    	this.savingsOrBudget = savingsOrBudget;
+    }
+    
+    //Progress Methods
+    public float getProgress() {
+    	return progress;
     }
 
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
+    public void setProgress(float progress) {
+    	this.progress = progress;
+    }
+    
+    //Complete methods
     public boolean isComplete()
     {
-    	return false;
+    	return complete;
+    }
+    
+    public void setComplete(boolean complete) {
+    	this.complete = complete;
+    }
+    
+    //StartDate Method
+    public LocalDate getStartDate() {
+    	return startDate;
+    }
+    
+    //EndDate Methods
+    public LocalDate getEndDate() {
+    	return endDate;
+    }
+    
+    public void setEndDate(int year, int month, int day) {
+    	endDate = LocalDate.of(year, month, day);
+    }
+    
+    //ExpenseList Methods
+    public LinkedList<Expense> getExpenseList() {
+    	return expenses;
+    }
+    
+    public void logExpense(Expense expense) {
+    	this.expenses.add(expense);
     }
 }
