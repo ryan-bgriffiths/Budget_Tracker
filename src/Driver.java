@@ -98,14 +98,18 @@ public class Driver
             }
         }
 
+        // This will be removed to implement the Strategy design pattern
         // sort the current month after adding recurring entries
-        Collections.sort(allMonths[currentMonthIndex],
-            new Comparator<Expense>() {
-                public int compare(Expense a, Expense b) {
-                    return a.getDate().compareTo(b.getDate());
-                }
-            }
-        );
+//        Collections.sort(allMonths[currentMonthIndex],
+//            new Comparator<Expense>() {
+//                public int compare(Expense a, Expense b) {
+//                    return a.getDate().compareTo(b.getDate());
+//                }
+//            }
+//        );
+        
+        // Added Strategy design pattern
+        new SortByDateStrategy().sort(allMonths[currentMonthIndex]);
         
 		input = new Scanner(System.in);
 		goalStub = new LinkedList<Goal>();
@@ -152,7 +156,7 @@ public class Driver
 			System.out.printf("%s%d%s%d%s", "Please enter a selection (", 1, "-", end, ") or '0' to exit: " );
 			
 			
-			// verify next input is an int so it doesn't throw an exception and exit
+			// Verify next input is an int so it doesn't throw an exception and exit
 			if (inFile.hasNextInt() == false)
 			{
 				inFile.next();
