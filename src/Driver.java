@@ -341,6 +341,7 @@ public class Driver
 			// DO OPTION 4
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering goals page...");
+			GoalUi.goalMenu(input, goalStub);
 			break;
 		
 		case 4:

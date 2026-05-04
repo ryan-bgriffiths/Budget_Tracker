@@ -25,15 +25,14 @@ public class Goal {
     		int endDay,
     		String name, 
     		String description, 
-    		float amount, 
-    		float progress) {
+    		float amount) {
     	this.savingsOrBudget = savingsOrBudget;
     	startDate = LocalDate.of(startYear, startMonth, startDay);
     	endDate = LocalDate.of(endYear, startMonth, endMonth);
     	this.name = name;
     	this.description = description;
     	this.amount = amount;
-    	this.progress = progress;
+    	progress = 0;
     	expenses = new LinkedList<Expense>();
     	complete = false;
     }
