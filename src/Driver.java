@@ -249,7 +249,8 @@ public class Driver
 				//	5. Debt
 				//
 				// Please enter a selection (1-5) or '0' to exit: <user space>
-				System.out.printf("\n\n\n\n%s\n","=".repeat(50));
+				System.out.printf("\n\n\n\n%s\n","*".repeat(50));
+				System.out.printf("%s\n","*".repeat(50));
 				System.out.printf("%32s\n","BUDGET TRACKER");
 				
 				// keep centered with different month names
@@ -262,7 +263,8 @@ public class Driver
 				}
 				System.out.printf("%s\n", label);
 				
-				System.out.printf("%s\n","=".repeat(50));
+				System.out.printf("%s\n","*".repeat(50));
+				System.out.printf("%s\n\n","*".repeat(50));
 				
 				displayOverallExpense(currentBreakdown, 0);
 				
