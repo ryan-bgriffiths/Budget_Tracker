@@ -24,6 +24,7 @@ public class GoalUi {
 				break;
 			case 2:
 				modifyGoal(inFile, goals);
+				break;
 			case 3:
 				deleteGoal(inFile, goals);
 				break;
@@ -36,12 +37,21 @@ public class GoalUi {
 		System.out.printf("%32s\n", "ADD GOAL");
 		System.out.printf("%s\n\n", "-".repeat(50));
 
+		
+		//Get name and description
+		inFile.nextLine();
+		System.out.print("Enter goal name: ");
+		String name = inFile.nextLine().trim();
+
+		System.out.print("Enter description: ");
+		String description = inFile.nextLine().trim();
+
 		//Get type of goal
 		boolean savingsOrBudget = false;
 		boolean validType = false;
 
 		while (!validType) {
-			System.out.print("Is this a savings or budget goal? (s/b)");
+			System.out.print("Is this a savings or budget goal? (s/b) ");
 			String typeInput = inFile.next().trim().toLowerCase();
 
 			if (typeInput.equals("s")) {
@@ -55,15 +65,8 @@ public class GoalUi {
 			}
 		}
 		
-		//Get name and description
-		System.out.print("Enter goal name: ");
-		String name = inFile.nextLine().trim();
-
-		System.out.print("Enter description: ");
-		String description = inFile.nextLine().trim();
-		
 		//Get start date - press enter for today
-        inFile.nextLine();
+		inFile.nextLine();
         LocalDate parsedStartDate = null;
         LocalDate today = LocalDate.now();
         LocalDate oneYearAgo = today.minusYears(1);
@@ -95,8 +98,7 @@ public class GoalUi {
             }
         }
         
-     //Get end date - press enter for today
-        inFile.nextLine();
+        //Get end date - press enter for today
         LocalDate parsedEndDate = null;
         
         while (parsedEndDate == null) {
@@ -133,8 +135,19 @@ public class GoalUi {
         }
 
         //Get amount
-		System.out.print("Enter amount: ");
-		float amount = inFile.nextFloat();
+        float amount = -1;
+        while (amount < 0) {
+            System.out.print("Enter amount: ");
+            if (inFile.hasNextFloat()) {
+                amount = inFile.nextFloat();
+                if (amount < 0) {
+                    System.out.println("[!] ERROR: Amount cannot be negative.");
+                }
+            } else {
+                System.out.println("[!] ERROR: Invalid amount. Enter a number.");
+                inFile.next();
+            }
+        }
 
 		Goal newGoal = new Goal(savingsOrBudget, 
 				parsedStartDate.getYear(), 
@@ -153,8 +166,68 @@ public class GoalUi {
 		System.out.println("Goal added.");
 	}
 	
-	public static void modifyGoal(Scanner inFile, LinkedList<Goal> goals) {
+	public static void modifyGoal(Scanner inFile, LinkedList<Goal> goals) { //Allows the user to modify goals from the list
+		System.out.printf("\n%s\n", "-".repeat(50));
+		System.out.printf("%32s\n", "MODIFY GOAL");
+		System.out.printf("%s\n\n", "-".repeat(50));
 		
+		if(goals.isEmpty()) {
+			System.out.println("No goals have been entered yet.");
+			return;
+		}
+		for (int i = 0; i < goals.size(); i++) {
+			System.out.println((i + 1) + ". " + goals.get(i).getName());
+		}
+		System.out.println("\nEnter goal number to modify or 0 to cancel: ");
+		int choice = inFile.nextInt();
+		
+		if(choice == 0) {
+			return;
+		}
+		if(choice < 1 || choice > goals.size()) {
+			System.out.println("Invalid selection");
+			return;
+		}
+		
+		Goal selectedGoal = goals.get(choice - 1);
+		inFile.nextLine();
+		System.out.print("Enter a new name, or press enter to keep current name: ");
+		String name = inFile.nextLine().trim();
+		if(!name.isEmpty()) {
+			selectedGoal.setName(name);
+		}
+		
+		System.out.print("Eneter a new description or enter to keep current description: ");
+		String description = inFile.nextLine().trim();
+		if(!description.isEmpty()) {
+			selectedGoal.setDescription(description);
+		}
+		
+		System.out.print("Enter the new amount or -1 to keep current amount: ");
+		float amount = inFile.nextFloat();
+		if(amount >= 0) {
+			selectedGoal.setAmount(amount);
+		}
+		System.out.print("Enter the new progress or -1 to keep current progress: ");
+		float progress = inFile.nextFloat();
+		if (progress >= 0) {
+			selectedGoal.setProgress(progress);
+		}
+		System.out.print("Enter new end year, or 0 to keep current date: ");
+		int endYear = inFile.nextInt();
+		
+		if (endYear != 0) {
+			System.out.print("Enter new end month: ");
+			int endMonth = inFile.nextInt();
+			
+			System.out.print("Enter new end day: ");
+			int endDay = inFile.nextInt();
+			
+			selectedGoal.setEndDate(endYear, endMonth, endDay);
+		}
+		sortByDate(goals);
+		System.out.printf("\n%s\n","-".repeat(50));
+		System.out.println("Goal successfully modified");
 	}
 
 	public static void deleteGoal(Scanner inFile, LinkedList<Goal> goals) { //User picks one goal to delete

@@ -209,7 +209,7 @@ public class ExpenseUI {
             return;
         }
         int index = month - 1;
-        if (monthList[month].isEmpty()) {
+        if (monthList[index].isEmpty()) {
             System.out.println("No expenses have been entered yet.");
             return;
         }
@@ -217,7 +217,7 @@ public class ExpenseUI {
         // display all expenses with numbers
         System.out.println("Existing Expenses:");
         int count = 1;
-        for (Expense e : monthList[month]) {
+        for (Expense e : monthList[index]) {
             System.out.printf("  %d. %-15s $%-10.2f %s%n",
                 count, e.getName(), e.getAmount(), e.getDate().toString());
             count++;
@@ -236,7 +236,7 @@ public class ExpenseUI {
         }
 
         // get target expense
-        Expense target = monthList[month].get(choice - 1);
+        Expense target = monthList[index].get(choice - 1);
 
         // confirm deletion
         System.out.printf("\nAre you sure you want to delete:\n%s - $%.2f - %s? (y/n): ",
