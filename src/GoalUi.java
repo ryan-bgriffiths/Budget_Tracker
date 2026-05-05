@@ -24,6 +24,7 @@ public class GoalUi {
 				break;
 			case 2:
 				modifyGoal(inFile, goals);
+				break;
 			case 3:
 				deleteGoal(inFile, goals);
 				break;
@@ -36,12 +37,21 @@ public class GoalUi {
 		System.out.printf("%32s\n", "ADD GOAL");
 		System.out.printf("%s\n\n", "-".repeat(50));
 
+		
+		//Get name and description
+		inFile.nextLine();
+		System.out.print("Enter goal name: ");
+		String name = inFile.nextLine().trim();
+
+		System.out.print("Enter description: ");
+		String description = inFile.nextLine().trim();
+
 		//Get type of goal
 		boolean savingsOrBudget = false;
 		boolean validType = false;
 
 		while (!validType) {
-			System.out.print("Is this a savings or budget goal? (s/b)");
+			System.out.print("Is this a savings or budget goal? (s/b) ");
 			String typeInput = inFile.next().trim().toLowerCase();
 
 			if (typeInput.equals("s")) {
@@ -55,15 +65,8 @@ public class GoalUi {
 			}
 		}
 		
-		//Get name and description
-		System.out.print("Enter goal name: ");
-		String name = inFile.nextLine().trim();
-
-		System.out.print("Enter description: ");
-		String description = inFile.nextLine().trim();
-		
 		//Get start date - press enter for today
-        inFile.nextLine();
+		inFile.nextLine();
         LocalDate parsedStartDate = null;
         LocalDate today = LocalDate.now();
         LocalDate oneYearAgo = today.minusYears(1);
@@ -95,8 +98,7 @@ public class GoalUi {
             }
         }
         
-     //Get end date - press enter for today
-        inFile.nextLine();
+        //Get end date - press enter for today
         LocalDate parsedEndDate = null;
         
         while (parsedEndDate == null) {
@@ -133,8 +135,19 @@ public class GoalUi {
         }
 
         //Get amount
-		System.out.print("Enter amount: ");
-		float amount = inFile.nextFloat();
+        float amount = -1;
+        while (amount < 0) {
+            System.out.print("Enter amount: ");
+            if (inFile.hasNextFloat()) {
+                amount = inFile.nextFloat();
+                if (amount < 0) {
+                    System.out.println("[!] ERROR: Amount cannot be negative.");
+                }
+            } else {
+                System.out.println("[!] ERROR: Invalid amount. Enter a number.");
+                inFile.next();
+            }
+        }
 
 		Goal newGoal = new Goal(savingsOrBudget, 
 				parsedStartDate.getYear(), 
