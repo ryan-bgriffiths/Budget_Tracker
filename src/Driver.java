@@ -348,6 +348,7 @@ public class Driver
 			// DO OPTION 5
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
+			
 			break;
 		}
 		
