@@ -19,15 +19,14 @@ public class Driver
 	private static Month[] monthNames;
 	private static LinkedList<Expense>[] allMonths;
 	private static Scanner input;
-	private static LinkedList<Goal> goalStub;
-	private static LinkedList<Debt> debtStub;
+	private static LinkedList<Goal> goalList = new LinkedList<Goal>();
+	private static LinkedList<Debt> debtList;
 	private static MonthlyBreakdown currentBreakdown;
 	
 	// methods
 	
 	// 
 	// sets up the program
-	//
 	//
 	public static void setup()
 	{
@@ -53,6 +52,10 @@ public class Driver
 		SaveAsTXT.loadFromFile("DecemberExpenses.txt")
 		};
 		
+		goalList = SaveGoalTXT.loadFromFile("MasterGoalList.txt");
+		
+		
+		// on startup prefill any recurring expenses
 		int currentMonthIndex = LocalDate.now().getMonthValue() - 1;
         int prevMonthIndex = (currentMonthIndex == 0) ? 11 : currentMonthIndex - 1;
         
@@ -112,17 +115,17 @@ public class Driver
         new SortByDateStrategy().sort(allMonths[currentMonthIndex]);
         
 		input = new Scanner(System.in);
-		goalStub = new LinkedList<Goal>();
-		debtStub = new LinkedList<Debt>();
+		debtList = new LinkedList<Debt>();
 		currentBreakdown = 
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
 						allMonths[currentMonth.getValue() - 1],
-						goalStub,								//<<TO DO>> fix once goal class is created
-						debtStub								//<<TO DO>> fix once debt class is created
+						goalList,								//<<TO DO>> fix once goal class is created
+						debtList								//<<TO DO>> fix once debt class is created
 					);
 	}
+	
 	
 	//
 	// getMenuOption - Allows programmer to enter an end value. Will prompt user to enter number from 1 to end or to press 0 to exit the program. 
@@ -286,6 +289,36 @@ public class Driver
 				return choice;
 			}
 	
+	
+	//
+	// gets a new monthly breakdown object based on the month
+	//
+	//
+	public static void getMonthlyBreakdown(int status)
+	{
+		if (status == 0)
+		{
+			currentBreakdown = 
+					new MonthlyBreakdown(
+							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
+							LocalDate.now().getYear(), 
+							allMonths[currentMonth.getValue() - 1],
+							goalList,								
+							debtList								
+						);
+		}
+		else
+		{
+			new MonthlyBreakdown(
+					monthNames[status-1].name(), 
+					LocalDate.now().getYear(),
+					allMonths[status-1],
+					goalList,		//<<TO DO>> fix once goal class is created
+					debtList		//<<TO DO>> fix once debt class is created
+				);
+		}
+	}
+	
 	//
 	// main - the driver which start the program and sets up the program via getting the linked list of expenses and the current month
 	// N/A; N/A
@@ -309,50 +342,30 @@ public class Driver
 			
 			// if 0 standard return, if non-0 change to month number
 			int status;
-			currentBreakdown = 
-					new MonthlyBreakdown(
-							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
-							LocalDate.now().getYear(), 
-							allMonths[currentMonth.getValue() - 1],
-							goalStub,								//<<TO DO>> fix once goal class is created
-							debtStub								//<<TO DO>> fix once debt class is created
-						);
+			getMonthlyBreakdown(0);
 			status = currentBreakdown.displayMonthlyBreakdown(input);
 			
 			while (status != 0)
 			{
-				currentBreakdown = 
-						new MonthlyBreakdown(
-								monthNames[status-1].name(), 
-								LocalDate.now().getYear(),
-								allMonths[status-1],
-								goalStub,		//<<TO DO>> fix once goal class is created
-								debtStub		//<<TO DO>> fix once debt class is created
-							);
-				
+				getMonthlyBreakdown(status);
 				status = currentBreakdown.displayMonthlyBreakdown(input);
 			}
 			
 			break;
 		
 		case 2:
-			// DO OPTION 2
 			System.out.printf("\n%s\n","=".repeat(50));
 			ExpenseUI.showExpenseMenu(input, allMonths);
 			break;
 		
 		case 3:
-			// DO OPTION 4
 			System.out.printf("\n%s\n","=".repeat(50));
-			System.out.printf("\n%s\n","Entering goals page...");
-			GoalUi.goalMenu(input, goalStub);
+			GoalUi.goalMenu(input, goalList);
 			break;
 		
 		case 4:
-			// DO OPTION 5
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
-			
 			break;
 		}
 		
