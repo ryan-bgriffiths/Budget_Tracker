@@ -196,7 +196,6 @@ public class DebtManager {
         System.out.printf("Interest Rate: %.2f%%\n", debt.interestRate);
         System.out.println("Interest Type: " + (debt.compoundOrSimple ? "Compound" : "Simple"));
         System.out.println("Next Payment Due Date: " + debt.dueDate);
-        System.out.println("Estimated Payoff Time: " + estimatePayoffTime(debt));
         System.out.println("Status: " + (debt.status ? "Active" : "Inactive"));
     }
 
@@ -217,29 +216,6 @@ public class DebtManager {
             System.out.println("Name: " + debt.name);
             System.out.printf("Total Amount: $%,.2f\n", debt.remainingBalance);
             System.out.println("Status: " + (debt.status ? "Active" : "Inactive"));
-        }
-    }
-
-    // estimatePayoffTime - Estimates payoff time
-    // Debt; String
-    public static String estimatePayoffTime(Debt debt) {
-        float estimatedMonthlyPayment = 200.00f;
-
-        if (debt.remainingBalance <= 0) {
-            return "0 months";
-        }
-
-        int totalMonths = (int) Math.ceil(debt.remainingBalance / estimatedMonthlyPayment);
-
-        int years = totalMonths / 12;
-        int months = totalMonths % 12;
-
-        if (years > 0 && months > 0) {
-            return years + " years and " + months + " months";
-        } else if (years > 0) {
-            return years + " years";
-        } else {
-            return months + " months";
         }
     }
 }
