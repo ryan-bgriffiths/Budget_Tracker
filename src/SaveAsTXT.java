@@ -81,8 +81,10 @@ public class SaveAsTXT {
 				);
 
 				expenseList.add(expense);
+				
 			}
-
+			
+			reader.close();
 		} catch (IOException e) {
 			System.out.println("Error reading file: " + fileName);
 		}

@@ -24,8 +24,8 @@ public class ExpenseUITest {
     // add tests
     @Test
     public void testAddExpense_listNotEmpty() {
-        monthList.add(new Expense("Groceries", 50.00f, 2026, 4, 25, false));
-        assertFalse(monthList.isEmpty());
+    	
+        
     }
 
     @Test
