@@ -179,7 +179,7 @@ public class MonthlyBreakdown {
 		 * displayProgressToGoal() - Helper method for displayUpdates(), prints status of single goal
 		 * Grabs boolean complete, if not true, then grab progress
 		 * Input: Goal object, Output: Printed string
-		 * Ex: <Goal #>	Save $500 | Progress: 30.75% Complete
+		 * Ex: <Goal #>	Save $500 | Progress: 300.00
 		 */
 		
 		// Displaying:	<Name> | Progress:...
@@ -187,10 +187,9 @@ public class MonthlyBreakdown {
 		
 		// Displaying:			  			 ...<Progress>% Complete
 		if(currentGoal.isComplete() == true)	//Check if goal is completed
-			System.out.print("Complete\n");
+			System.out.print("Completed!\n");
 		else {									//Print progress
-			System.out.printf("%.2f", currentGoal.getProgress());	//Format printed float, round to 2 decimal places
-			System.out.print("% Complete\n");
+			System.out.println(currentGoal.getProgress());
 		}
 	}
 	
@@ -230,7 +229,7 @@ public class MonthlyBreakdown {
 		 */
 		
 		//Goals Display -------------------------------------------------------------------------------------------
-		System.out.printf("Goals:\n");
+		System.out.printf("\nGoals:\n");
 		
 		if(goals.size() <= 0)	//Check for empty LinkedList
 			System.out.printf("[!] Alert - No goals added.\n\n");
@@ -242,7 +241,7 @@ public class MonthlyBreakdown {
 		}
 		
 		//Debts Display -------------------------------------------------------------------------------------------
-		System.out.printf("Debts:\n");
+		System.out.printf("\nDebts:\n");
 		
 		if(debts.size() <= 0)	//Check for empty LinkedList
 			System.out.printf("[!] Alert - No debts added.\n\n");

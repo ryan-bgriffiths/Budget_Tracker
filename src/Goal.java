@@ -4,36 +4,26 @@ import java.util.LinkedList;
 public class Goal {
 
     // Fields
-    private boolean savingsOrBudget;	//True for savings, false for budget
     private LocalDate startDate;
-    private LocalDate endDate;
     String name; 
     String description;
     float amount; // (amount>0)
-    float progress; // Dollar amount towards goal
-    LinkedList<Expense> expenses;
+    float progress; //Dollar amount towards goal
     boolean complete; 
 
     // Constructor
     public Goal(
-    		boolean savingsOrBudget, 
     		int startYear,	//startDate
     		int startMonth,
     		int startDay,
-    		int endYear,	//endDate
-    		int endMonth,
-    		int endDay,
     		String name, 
     		String description, 
     		float amount) {
-    	this.savingsOrBudget = savingsOrBudget;
     	startDate = LocalDate.of(startYear, startMonth, startDay);
-    	endDate = LocalDate.of(endYear, startMonth, endMonth);
     	this.name = name;
     	this.description = description;
     	this.amount = amount;
     	progress = 0;
-    	expenses = new LinkedList<Expense>();
     	complete = false;
     }
 
@@ -66,16 +56,7 @@ public class Goal {
     	this.amount = amount;
     }
     
-    //Type Methods (True for savings, false for budget)
-    public boolean getType() {
-    	return savingsOrBudget;
-    }
-    
-    public void setType(boolean savingsOrBudget) {
-    	this.savingsOrBudget = savingsOrBudget;
-    }
-    
-    //Progress Methods
+    //Progress Methods (Convert from/to percentage)
     public float getProgress() {
     	return progress;
     }
@@ -94,26 +75,12 @@ public class Goal {
     	this.complete = complete;
     }
     
-    //StartDate Method
+    //StartDate Methods
     public LocalDate getStartDate() {
     	return startDate;
     }
     
-    //EndDate Methods
-    public LocalDate getEndDate() {
-    	return endDate;
-    }
-    
-    public void setEndDate(int year, int month, int day) {
-    	endDate = LocalDate.of(year, month, day);
-    }
-    
-    //ExpenseList Methods
-    public LinkedList<Expense> getExpenseList() {
-    	return expenses;
-    }
-    
-    public void logExpense(Expense expense) {
-    	this.expenses.add(expense);
+    public void setStartDate(int year, int month, int day) {
+    	startDate = LocalDate.of(year, month, day);
     }
 }

@@ -275,9 +275,9 @@ public class Driver
 				System.out.printf("\n\t%s\n\n", "Start Menu Options:");
 
 				System.out.printf("\t%s\n", "  1. Monthly Overview");
-				System.out.printf("\t%s\n", "  2. Add/Modify/Delete Expense");
+				System.out.printf("\t%s\n", "  2. Manage Expenses");
 				System.out.printf("\t%s\n", "  3. Manage Goals");
-				System.out.printf("\t%s\n", "  4. Manage Debt\n");
+				System.out.printf("\t%s\n", "  4. Manage Debts\n");
 							
 				// get user input for menu choice
 				int choice = getMenuOption(4, inFile);
