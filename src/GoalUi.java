@@ -93,12 +93,7 @@ public class GoalUi {
             }
         }
 
-		Goal newGoal = new Goal(parsedStartDate.getYear(), 
-				parsedStartDate.getMonthValue(), 
-				parsedStartDate.getDayOfMonth(), 
-				name,
-				description, 
-				amount);
+		Goal newGoal = GoalFactory.createGoal(parsedStartDate, name, description, amount);
 		goals.add(newGoal);
 		sortByDate(goals);
 
