@@ -159,15 +159,23 @@ public class ExpenseUI {
         int targetMonthIndex = parsedDate.getMonthValue() - 1;
         allMonths[targetMonthIndex].add(newExpense);
 
+        //Remove to utilize sortStrategy Design Pattern
         // sort the target month's list by date so entries stay in chronological order
         // Collections.sort with a Comparator compares two expenses by their dates
-        Collections.sort(allMonths[targetMonthIndex],
-            new Comparator<Expense>() {
-                public int compare(Expense a, Expense b) {
-                    return a.getDate().compareTo(b.getDate());
-                }
-            }
-        );
+//        Collections.sort(allMonths[targetMonthIndex],
+//            new Comparator<Expense>() {
+//                public int compare(Expense a, Expense b) {
+//                    return a.getDate().compareTo(b.getDate());
+//                }
+//            }
+//        );
+   
+        //TODO: Implement user choice to better strategy implementation. 
+        //	user chooses by date/amount.
+        
+        //Sort by date using the Strategy
+        ExpenseSortStrategy strategy = new SortByDateStrategy();
+        strategy.sort(allMonths[targetMonthIndex]);
 
         // save the updated list to file immediately so data persists
         String[] fileNames = {
@@ -369,13 +377,18 @@ public class ExpenseUI {
                     }
                 }
                 target.setDate(newDate.getYear(), newDate.getMonthValue(), newDate.getDayOfMonth());
-                Collections.sort(monthList[index],
-                    new Comparator<Expense>() {
-                        public int compare(Expense a, Expense b) {
-                            return a.getDate().compareTo(b.getDate());
-                        }
-                    }
-                );
+                
+                //Sort by date
+                ExpenseSortStrategy strategy = new SortByDateStrategy();
+                strategy.sort(monthList[index]);
+                
+//                Collections.sort(monthList[index],
+//                    new Comparator<Expense>() {
+//                        public int compare(Expense a, Expense b) {
+//                            return a.getDate().compareTo(b.getDate());
+//                        }
+//                    }
+//                );
                 break;
             case 4:
                 target.setPaid(!target.isPaid());
