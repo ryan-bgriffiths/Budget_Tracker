@@ -7,8 +7,8 @@ import java.util.LinkedList;
 //	modification and extensions in the future. 
 public class SortByDateStrategy implements ExpenseSortStrategy {
 
-	@Override 
+	@Override
 	public void sort(LinkedList<Expense> expenses) {
-		expenses.sort((a,b) -> a.getDate().compareTo(b.getDate()));
+		expenses.sort((a, b) -> a.getDate().compareTo(b.getDate()));
 	}
 }
