@@ -4,11 +4,48 @@ Java implementation of a Budget Tacking application.
 
 
 ## Features
-- Track and update total spendings
+- Track and update total Expenses 
+- Set and track Goals for you savings and spendings
+- Input and track current debts and progress towards payoff
+- View monthly breakdowns 
+- Sort expenses by date
 
 ## Structure
 
+- src - *.java 
+- *.txt (test files)
+
 ## How It Works
+
+- Display start menu
+    -1. Overall Expenses
+    -2. Monthly Overview
+    -3. Add Expense
+    -4. Goals
+    -5. Debt
+
+-User selection navigates to each individual page
+    - 1. Expense menu 
+        - Add Expense 
+        - Modify Expense 
+        - Delete Expense 
+    - 2. Monthly Breakdown
+        - 'Breakdown display'
+        - 1. Return to Home Page
+        - 2. List next 5 items
+        - 3. Change month 
+    - 3. Add Expense 
+        - Add Expense 
+        - Modify Expense 
+        - Delete Expense
+    - 4. Goals
+        - 1. Add Goal
+        - 2. Modify Goal 
+        - 3. Delete Goal
+    - 5. Debt 
+        - 1. Add Debt 
+        - 2. Modify Debt 
+        - 3. Delete Debt 
 
 ## GitHub Setup + Push Checklist (START HERE)
 
