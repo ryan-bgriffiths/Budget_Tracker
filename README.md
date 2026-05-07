@@ -18,13 +18,13 @@ Java implementation of a Budget Tacking application.
 ## How It Works
 
 - Display start menu
-    -1. Overall Expenses
-    -2. Monthly Overview
-    -3. Add Expense
-    -4. Goals
-    -5. Debt
+    - 1. Overall Expenses
+    - 2. Monthly Overview
+    - 3. Add Expense
+    - 4. Goals
+    - 5. Debt
 
--User selection navigates to each individual page
+- User selection navigates to each individual page
     - 1. Expense menu 
         - Add Expense 
         - Modify Expense 
