@@ -60,6 +60,7 @@ public class GoalUi {
                 parsedStartDate = today;
                 break;
             }
+            else {
 
             try {
                 LocalDate candidate = LocalDate.parse(dateInput);
@@ -75,6 +76,7 @@ public class GoalUi {
 
             } catch (DateTimeParseException e) {
                 System.out.println("[!] ERROR: Use YYYY-MM-DD format. Try again.");
+            }
             }
         }
 

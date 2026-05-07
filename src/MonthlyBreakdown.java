@@ -203,7 +203,7 @@ public class MonthlyBreakdown {
 		
 		//Displaying:	<Name> | Principal: <Amount> | Progress:...
 		System.out.print("\t" + currentDebt.getName() + " | Principal: $" + 
-			currentDebt.getPrincipalAmount() + " | Progress: ");
+			currentDebt.getPrincipleAmount() + " | Progress: ");
 		
 		//Displaying: 								 			   ...<Progress>% Paid Off
 		if(currentDebt.getStatus() == false)	//Check if debt is inactive

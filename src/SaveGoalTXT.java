@@ -22,12 +22,10 @@ public class SaveGoalTXT {
 
 		// Write each expense (same structure as SaveAsTXT)
 		for (Goal goal : goalList) {
-			writer.println(goal.getType() ? 0 : 1);
-			writer.println(goal.getStartDate());
-			writer.println(goal.getEndDate());
-			writer.println(goal.getName());
-			writer.println(goal.getDescription());
 			writer.println(goal.getAmount());
+			writer.println(goal.getName());
+			writer.println(goal.getStartDate());
+			writer.println(goal.getDescription());
 			writer.println("---");
 		}
 
@@ -52,18 +50,14 @@ public class SaveGoalTXT {
 		String line;
 
 		while ((line = reader.readLine()) != null) {
-			int readBool = Integer.parseInt(reader.readLine());
-			boolean savingsOrBudget = (readBool == 0) ? false : true;
-			LocalDate startdate = LocalDate.parse(reader.readLine());
-			LocalDate enddate = LocalDate.parse(reader.readLine());
-			String name = reader.readLine();
-			String description = reader.readLine();
 			float amount = Float.parseFloat(line);
+			String name = reader.readLine();
+			LocalDate startdate = LocalDate.parse(reader.readLine());
+			String description = reader.readLine();
 			reader.readLine(); // skip "---"
 			
-			Goal goal = new Goal(savingsOrBudget, startdate.getYear(), 
-					startdate.getMonthValue(), startdate.getDayOfMonth(), enddate.getYear(), 
-					enddate.getMonthValue(), enddate.getDayOfMonth(), name, description, amount);
+			Goal goal = new Goal(startdate.getYear(), 
+					startdate.getMonthValue(), startdate.getDayOfMonth(),  name, description, amount);
 
 			goals.add(goal);
 		}

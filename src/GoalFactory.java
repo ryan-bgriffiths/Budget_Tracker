@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class GoalFactory {
 	public static Goal createGoal(LocalDate startDate, String name, String description, float amount) {
-		return new Goal(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfYear(), name, description,
+		return new Goal(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), name, description,
 				amount);
 	}
 }

@@ -44,13 +44,27 @@ public class Debt {
 		this.paymentHistory = new LinkedList<>();
 		this.activity = status;
 	}
+	
+	// Constructor with remaining balance and status
+	public Debt(String name, float principle, int year, int month, int day, float interestRate,
+			boolean compoundOrSimple, float remainingBalance, boolean status, LinkedList<Expense> paymentHistory) {
+
+		this.name = name;
+		this.principle = principle;
+		this.dueDate = LocalDate.of(year, month, day);
+		this.interestRate = interestRate;
+		this.compoundOrSimple = compoundOrSimple;
+		this.remainingBalance = remainingBalance;
+		this.paymentHistory = paymentHistory;
+		this.activity = status;
+	}
 
 	// Getters
 	public String getName() {
 		return name;
 	}
 
-	public float getPrincipalAmount() {
+	public float getPrincipleAmount() {
 		return principle;
 	}
 
@@ -92,6 +106,10 @@ public class Debt {
 
 	public float getRemainingBalance() {
 		return calculateRemainingBalance();
+	}
+	
+	public LinkedList<Expense> getPaymentHistory(){
+		return paymentHistory;
 	}
 
 	// Setters

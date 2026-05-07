@@ -53,7 +53,8 @@ public class Driver
 		};
 		
 		goalList = SaveGoalTXT.loadFromFile("MasterGoalList.txt");
-		
+		debtList = SaveDebtTXT.loadFromFile("MasterDebtList.txt");
+
 		
 		// on startup prefill any recurring expenses
 		int currentMonthIndex = LocalDate.now().getMonthValue() - 1;
@@ -284,8 +285,6 @@ public class Driver
 							
 				// get user input for menu choice
 				int choice = getMenuOption(4, inFile);
-				
-				
 				return choice;
 			}
 	
@@ -361,11 +360,13 @@ public class Driver
 		case 3:
 			System.out.printf("\n%s\n","=".repeat(50));
 			GoalUi.goalMenu(input, goalList);
+			SaveGoalTXT.saveToFile(goalList, "MasterGoalList.txt");
 			break;
 		
 		case 4:
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
+			SaveDebtTXT.saveToFile(debtList, "MasterDebtList.txt");
 			break;
 		}
 		
