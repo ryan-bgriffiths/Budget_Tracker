@@ -7,47 +7,63 @@ public class Debt {
     // Fields
     String name; 
     float principle;
-    LocalDate dueDate;
+    LocalDate endDate;
     LinkedList<Expense> paymentHistory;
     float interestRate;
     boolean compoundOrSimple;
-    float remainingBalance; // Remove 
+    float remainingBalance;
     boolean status; //active vs inactive
     // Constructors
+    
+    public Debt(
+    		String name, 
+    		float principle,
+    		int year,
+    		int month,
+    		int day, 
+    		float interest,
+    		boolean type,
+    		float remainingBalance, 
+    		boolean status, 
+    		LinkedList<Expense> payments) {
+    	this.name = name;
+    	this.principle = principle;
+    	endDate = LocalDate.of(year, month, day);
+    	interestRate = interest;
+    	compoundOrSimple = type;
+    	this.remainingBalance = remainingBalance;
+    	this.status = status;
+    	paymentHistory = payments;
+    }
 
     // Methods
     
-   // << METHOD STUB>> << FINISH LATER TO DO>> 
     public String getName()
     {
-    	return "";
+    	return name;
     }
     
-    // << METHOD STUB>> << FINISH LATER TO DO>>
     public float getPrincipalAmount()
     {
-    	return 0;
+    	return principle;
     }
     
     
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
     public boolean getStatus()
     {
-    	return true;
+    	return status;
     }
     
     
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
     public float getProgress()
     {
-    	return 0;
+    	return (principle - remainingBalance);
     }
     
     
-    // << METHOD STUB>> << FINISH LATER TO DO>> 
     public float getRemainingBalance()
     {
-    	return 0;
+    	return remainingBalance;
     }
     
     
