@@ -6,14 +6,49 @@ import java.util.Scanner;
 // dependencies: Debt, LinkedList, Scanner, LocalDate; sub-classes: none
 public class DebtManager {
 
+    // showDebtMenu - Displays debt menu and routes user to debt options
+    // Scanner, LinkedList<Debt>; void
+    public static void showDebtMenu(Scanner input, LinkedList<Debt> debtList) {
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\t╔══════════════════════════════╗");
+            System.out.println("\t║    ****  DEBT MENU  ****     ║");
+            System.out.println("\t╚══════════════════════════════╝\n");
+
+            System.out.printf("\t%s\n", "Options:");
+            System.out.printf("\t%s\n", "  1. View Debt Dashboard");
+            System.out.printf("\t%s\n", "  2. Add Debt");
+            System.out.printf("\t%s\n", "  3. Modify Debt");
+            System.out.printf("\t%s\n", "  4. Delete Debt");
+            System.out.printf("\t%s\n", "  5. View Past Debt");
+            System.out.printf("\t%s\n", "  6. View Debt Details\n");
+
+            choice = Driver.getMenuOption(6, input);
+            input.nextLine();
+
+            switch (choice) {
+                case 1: displayDashboard(debtList); break;
+                case 2: addDebt(debtList, input); break;
+                case 3: modifyDebt(debtList, input); break;
+                case 4: deleteDebt(debtList, input); break;
+                case 5: viewPastDebt(debtList); break;
+                case 6: viewDebtDetails(debtList, input); break;
+            }
+        }
+    }
+
     // displayDashboard - Displays active debt entries and total active debt
     // LinkedList<Debt>; void
     public static void displayDashboard(LinkedList<Debt> debtList) {
         float totalDebt = 0;
         boolean foundActiveDebt = false;
 
-        System.out.println("\n===== DEBT PANEL =====");
-        System.out.println("\n--- Active Debt Entries ---");
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║   ****  DEBT PANEL  ****     ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+
+        System.out.println("--- Active Debt Entries ---");
 
         for (int i = 0; i < debtList.size(); i++) {
             Debt debt = debtList.get(i);
@@ -39,6 +74,10 @@ public class DebtManager {
     // addDebt - Adds a new debt entry
     // LinkedList<Debt>, Scanner; void
     public static void addDebt(LinkedList<Debt> debtList, Scanner input) {
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║     ****  ADD DEBT  ****     ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+
         Debt debt = new Debt();
 
         System.out.print("Enter debt name: ");
@@ -75,6 +114,10 @@ public class DebtManager {
     // deleteDebt - Deletes a debt entry
     // LinkedList<Debt>, Scanner; void
     public static void deleteDebt(LinkedList<Debt> debtList, Scanner input) {
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║   ****  DELETE DEBT  ****    ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+
         displayAllDebts(debtList);
 
         if (debtList.isEmpty()) {
@@ -95,6 +138,10 @@ public class DebtManager {
     // modifyDebt - Modifies an existing debt entry
     // LinkedList<Debt>, Scanner; void
     public static void modifyDebt(LinkedList<Debt> debtList, Scanner input) {
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║   ****  MODIFY DEBT  ****    ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+
         displayAllDebts(debtList);
 
         if (debtList.isEmpty()) {
@@ -150,7 +197,9 @@ public class DebtManager {
     public static void viewPastDebt(LinkedList<Debt> debtList) {
         boolean foundPastDebt = false;
 
-        System.out.println("\n===== PAST DEBT =====");
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║    ****  PAST DEBT  ****     ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
 
         for (int i = 0; i < debtList.size(); i++) {
             Debt debt = debtList.get(i);
@@ -173,6 +222,10 @@ public class DebtManager {
     // viewDebtDetails - Displays details for one debt case
     // LinkedList<Debt>, Scanner; void
     public static void viewDebtDetails(LinkedList<Debt> debtList, Scanner input) {
+        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\t║  ****  DEBT DETAILS  ****    ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+
         displayAllDebts(debtList);
 
         if (debtList.isEmpty()) {
@@ -218,4 +271,16 @@ public class DebtManager {
             System.out.println("Status: " + (debt.status ? "Active" : "Inactive"));
         }
     }
+    
+ // main - Temporary test code for DebtManager
+ // no input; runs DebtManager menu
+ public static void main(String[] args) {
+
+     LinkedList<Debt> debtList = new LinkedList<Debt>();
+     Scanner input = new Scanner(System.in);
+
+     showDebtMenu(input, debtList);
+
+     input.close();
+ }
 }
