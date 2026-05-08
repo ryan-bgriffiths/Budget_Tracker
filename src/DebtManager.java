@@ -190,7 +190,7 @@ public class DebtManager {
         debt.compoundOrSimple = interestChoice == 2;
 
         System.out.print("Enter new minimum payment due date (YYYY-MM-DD): ");
-        debt.dueDate = LocalDate.parse(input.nextLine());
+        debt.endDate = LocalDate.parse(input.nextLine());
 
         System.out.println("Debt Status:");
         System.out.println("1. Active");
@@ -198,7 +198,7 @@ public class DebtManager {
         System.out.print("Choose (1 or 2): ");
         int statusChoice = Integer.parseInt(input.nextLine());
 
-        debt.setStatus(statusChoice == 1);
+        debt.status = (statusChoice == 1);
 
         System.out.println("Debt modified successfully.");
     }
@@ -259,7 +259,7 @@ public class DebtManager {
         System.out.printf("Remaining Balance: $%,.2f\n", debt.remainingBalance);
         System.out.printf("Interest Rate: %.2f%%\n", debt.interestRate);
         System.out.println("Interest Type: " + (debt.compoundOrSimple ? "Compound" : "Simple"));
-        System.out.println("Next Payment Due Date: " + debt.dueDate);
+        System.out.println("Next Payment Due Date: " + debt.endDate);
         System.out.println("Status: " + (debt.getStatus() ? "Active" : "Inactive"));
     }
 

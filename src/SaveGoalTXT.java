@@ -8,7 +8,8 @@ public class SaveGoalTXT {
 
 	// saveToFile: Saves persistent data to files so it can be reused
 	// Inputs, doubly linked list, and the filename
-	public static void saveToFile(LinkedList<Expense> goalExpenses, String fileName) throws IOException {
+	public static void saveToFile(LinkedList<Goal> goalList, String fileName) {
+		try {
 		File file = new File(fileName);
 
 		// Create file if it doesn't exist
@@ -20,47 +21,54 @@ public class SaveGoalTXT {
 		PrintWriter writer = new PrintWriter(new FileWriter(file, false));
 
 		// Write each expense (same structure as SaveAsTXT)
-		for (Expense expense : goalExpenses) {
-			writer.println(expense.getAmount());
-			writer.println(expense.getDate());
-			writer.println(expense.getName());
-			writer.println(expense.isPaid() ? 0 : 1);
+		for (Goal goal : goalList) {
+			writer.println(goal.getAmount());
+			writer.println(goal.getName());
+			writer.println(goal.getStartDate());
+			writer.println(goal.getDescription());
 			writer.println("---");
 		}
 
 		writer.close();
+		} catch( IOException e) {
+			System.out.println("Error saving file: " + fileName);
+		}
 	}
 
 	// loadFromFile: creates a linkedList from the previously saved file data
 	// input = files, Outputs = LinkedLists of goals
-	public static LinkedList<Expense> loadFromFile(String fileName) throws IOException {
-		LinkedList<Expense> goalExpenses = new LinkedList<>();
+	public static LinkedList<Goal> loadFromFile(String fileName) {
+		LinkedList<Goal> goals = new LinkedList<>();
 		File file = new File(fileName);
 
 		// Prevents most errors
 		if (!file.exists() || file.length() == 0) {
-			return goalExpenses;
+			return goals;
 		}
 
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 		String line;
 
 		while ((line = reader.readLine()) != null) {
 			float amount = Float.parseFloat(line);
-			LocalDate date = LocalDate.parse(reader.readLine());
 			String name = reader.readLine();
-			int paidInput = Integer.parseInt(reader.readLine());
+			LocalDate startDate = LocalDate.parse(reader.readLine());
+			LocalDate endDate = LocalDate.parse(reader.readLine());
+			String description = reader.readLine();
 			reader.readLine(); // skip "---"
+			
+			Goal goal = new Goal(true, startDate.getYear(), 
+					startDate.getMonthValue(), startDate.getDayOfMonth(), endDate.getYear(), 
+					endDate.getMonthValue(), endDate.getDayOfMonth(),  name, description, amount);
 
-			boolean paid = (paidInput == 0);
-
-			Expense expense = new Expense(name, amount, date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
-					paid);
-
-			goalExpenses.add(expense);
+			goals.add(goal);
 		}
 
 		reader.close();
-		return goalExpenses;
+		} catch (IOException e) {
+			System.out.println("Error reading file: " + fileName);
+		}
+		
+		return goals;
 	}
 }

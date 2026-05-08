@@ -19,8 +19,8 @@ public class Driver
 	private static Month[] monthNames;
 	private static LinkedList<Expense>[] allMonths;
 	private static Scanner input;
-	private static LinkedList<Goal> goalStub;
-	private static LinkedList<Debt> debtStub;
+	private static LinkedList<Goal> goalList;
+	private static LinkedList<Debt> debtList;
 	private static MonthlyBreakdown currentBreakdown;
 	
 	// methods
@@ -52,6 +52,9 @@ public class Driver
 		SaveAsTXT.loadFromFile("NovemberExpenses.txt"),
 		SaveAsTXT.loadFromFile("DecemberExpenses.txt")
 		};
+		
+		goalList = SaveGoalTXT.loadFromFile("MasterGoalList");
+		debtList = SaveDebtTXT.loadFromFile("MasterDebtList");
 		
 		int currentMonthIndex = LocalDate.now().getMonthValue() - 1;
         int prevMonthIndex = (currentMonthIndex == 0) ? 11 : currentMonthIndex - 1;
@@ -112,15 +115,15 @@ public class Driver
         new SortByDateStrategy().sort(allMonths[currentMonthIndex]);
         
 		input = new Scanner(System.in);
-		goalStub = new LinkedList<Goal>();
-		debtStub = new LinkedList<Debt>();
+		goalList = new LinkedList<Goal>();
+		debtList = new LinkedList<Debt>();
 		currentBreakdown = 
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 						LocalDate.now().getYear(), 
 						allMonths[currentMonth.getValue() - 1],
-						goalStub,								//<<TO DO>> fix once goal class is created
-						debtStub								//<<TO DO>> fix once debt class is created
+						goalList,								//<<TO DO>> fix once goal class is created
+						debtList								//<<TO DO>> fix once debt class is created
 					);
 	}
 	
@@ -314,8 +317,8 @@ public class Driver
 							currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
 							LocalDate.now().getYear(), 
 							allMonths[currentMonth.getValue() - 1],
-							goalStub,								//<<TO DO>> fix once goal class is created
-							debtStub								//<<TO DO>> fix once debt class is created
+							goalList,							
+							debtList							
 						);
 			status = currentBreakdown.displayMonthlyBreakdown(input);
 			
@@ -326,8 +329,8 @@ public class Driver
 								monthNames[status-1].name(), 
 								LocalDate.now().getYear(),
 								allMonths[status-1],
-								goalStub,		//<<TO DO>> fix once goal class is created
-								debtStub		//<<TO DO>> fix once debt class is created
+								goalList,		
+								debtList		
 							);
 				
 				status = currentBreakdown.displayMonthlyBreakdown(input);
@@ -345,13 +348,16 @@ public class Driver
 			// DO OPTION 4
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering goals page...");
-			GoalUi.goalMenu(input, goalStub);
+			GoalUi.goalMenu(input, goalList);
+			SaveGoalTXT.saveToFile(goalList,  "MasterDebtList");
 			break;
 		
 		case 4:
 			// DO OPTION 5
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering debt page...");
+			DebtManager.showDebtMenu(input, debtList);
+			SaveDebtTXT.saveToFile(debtList,  "MasterDebtList");
 			break;
 		}
 		

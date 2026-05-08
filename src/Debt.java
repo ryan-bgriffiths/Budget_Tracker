@@ -35,6 +35,18 @@ public class Debt {
     	this.status = status;
     	paymentHistory = payments;
     }
+    
+    
+    public Debt() {
+    	this.name = "";
+    	this.principle = 0;
+    	endDate = LocalDate.of(1, 1, 1);
+    	interestRate = 0;
+    	compoundOrSimple = true;
+    	this.remainingBalance = 0;
+    	this.status = true;
+    	paymentHistory = new LinkedList<Expense>() ;
+    }
 
     // Methods
     
