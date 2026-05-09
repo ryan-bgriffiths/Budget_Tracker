@@ -39,8 +39,8 @@ public class ExpenseUI {
     }
 
     //
-    // addExpense - collects expense info from user, creates Expense object, adds to list
-    // Scanner inFile, LinkedList<Expense> monthList; void
+    // showExpenseMenu - landing page that routes user to add, modify, or delete
+    // Scanner inFile, LinkedList<Expense>[] allMonths; void
     //
     public static void addExpense(Scanner inFile, LinkedList<Expense>[] allMonths) {
         System.out.printf("\n%s\n", "-".repeat(50));
@@ -322,15 +322,15 @@ public class ExpenseUI {
         System.out.println("  4. Toggle paid status");
         System.out.println("  5. Toggle income status");
         System.out.println("  6. Toggle recurring status");
-        int field = Driver.getMenuOption(6, inFile); // change 4 to 6
+        int field = Driver.getMenuOption(6, inFile);
 
         inFile.nextLine();
         switch (field) {
-            case 1:
+            case 1: // case for new name
                 System.out.print("New name: ");
                 target.setName(inFile.nextLine().trim());
                 break;
-            case 2:
+            case 2: // case for new amount
                 float newAmount = -1;
                 while (newAmount < 0) {
                     System.out.print("New amount: ");
@@ -346,7 +346,7 @@ public class ExpenseUI {
                 }
                 target.setAmount(newAmount);
                 break;
-            case 3:
+            case 3: // case for new date
                 LocalDate today = LocalDate.now();
                 LocalDate oneYearAgo = today.minusYears(1);
                 LocalDate newDate = null;
@@ -377,21 +377,21 @@ public class ExpenseUI {
                     }
                 );
                 break;
-            case 4:
+            case 4: // case to change paid status 
                 target.setPaid(!target.isPaid());
                 System.out.println("Paid status set to: " +
                     (target.isPaid() ? "Paid" : "Unpaid"));
                 break;
-            case 5:
+            case 5: // case to change income status
                 target.setIncome(!target.isIncome());
                 System.out.println("Income status set to: " + (target.isIncome() ? "Income" : "Expense"));
                 break;
-            case 6:
+            case 6: // case to change recurring status
                 target.setRecurring(!target.isRecurring());
                 System.out.println("Recurring status set to: " + (target.isRecurring() ? "Recurring" : "Not recurring"));
                 break;  
         }
-        String[] fileNames = {
+        String[] fileNames = { // array of months, each with its own linked list
         	    "JanuaryExpenses.txt", "FebruaryExpenses.txt", "MarchExpenses.txt",
         	    "AprilExpenses.txt", "MayExpenses.txt", "JuneExpenses.txt",
         	    "JulyExpenses.txt", "AugustExpenses.txt", "SeptemberExpenses.txt",
