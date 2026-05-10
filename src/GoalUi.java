@@ -160,10 +160,13 @@ public class GoalUi {
 				description, 
 				amount);
 		goals.add(newGoal);
+		// Observer pattern
+		BudgetSubject subject = new BudgetSubject();
+		subject.addObserver(new SimpleObserver());
+		subject.notifyObservers("Goal added successfully.");
 		sortByDate(goals);
 
 		System.out.printf("\n%s\n", "-".repeat(50));
-		System.out.println("Goal added.");
 	}
 	
 	public static void modifyGoal(Scanner inFile, LinkedList<Goal> goals) { //Allows the user to modify goals from the list
@@ -226,8 +229,12 @@ public class GoalUi {
 			selectedGoal.setEndDate(endYear, endMonth, endDay);
 		}
 		sortByDate(goals);
+		// Observer pattern
+		BudgetSubject subject = new BudgetSubject();
+		subject.addObserver(new SimpleObserver());
+		subject.notifyObservers("Goal successfully modified.");
 		System.out.printf("\n%s\n","-".repeat(50));
-		System.out.println("Goal successfully modified");
+
 	}
 
 	public static void deleteGoal(Scanner inFile, LinkedList<Goal> goals) { //User picks one goal to delete
@@ -268,9 +275,14 @@ public class GoalUi {
 		}
 
 		goals.remove(choice - 1);
+		// Observer pattern
+		// Creates a subject and notifies observers when a goal is deleted
+		BudgetSubject subject = new BudgetSubject();
+		subject.addObserver(new SimpleObserver());
+		subject.notifyObservers("Goal deleted successfully.");
+
 
 		System.out.printf("\n%s\n", "-".repeat(50));
-		System.out.println("Goal deleted successfully.");
 	}
 
 	public static void sortByDate(LinkedList<Goal> goals) { //Sort date from earliest to latest.

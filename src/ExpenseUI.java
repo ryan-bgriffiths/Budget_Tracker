@@ -158,6 +158,16 @@ public class ExpenseUI {
         // this handles cases where user enters a date from a different month
         int targetMonthIndex = parsedDate.getMonthValue() - 1;
         allMonths[targetMonthIndex].add(newExpense);
+        
+     // Observer pattern
+        BudgetSubject subject = new BudgetSubject();
+        subject.addObserver(new SimpleObserver());
+        if (isIncome) {
+            subject.notifyObservers("Income added successfully.");
+        } else {
+            subject.notifyObservers("Expense added successfully.");
+        }
+
 
         // sort the target month's list by date so entries stay in chronological order
         // Collections.sort with a Comparator compares two expenses by their dates
@@ -179,11 +189,7 @@ public class ExpenseUI {
         SaveAsTXT.saveToFile(allMonths[targetMonthIndex], fileNames[targetMonthIndex]);
 
         System.out.printf("\n%s\n", "-".repeat(50));
-        if (isIncome) {
-            System.out.println("Income added successfully.");
-        } else {
-            System.out.println("Expense added successfully.");
-        }
+       
     }
     
 
@@ -248,6 +254,12 @@ public class ExpenseUI {
         }
 
         monthList[index].remove(choice - 1);
+        
+        // Observer pattern
+        BudgetSubject subject = new BudgetSubject();
+        subject.addObserver(new SimpleObserver());
+        subject.notifyObservers("Entry deleted successfully.");
+
         
      // save updated list to file
         String[] fileNames = {
@@ -399,7 +411,12 @@ public class ExpenseUI {
         	};
         	SaveAsTXT.saveToFile(monthList[index], fileNames[index]);
         	
+        	// Observer pattern
+           	BudgetSubject subject = new BudgetSubject();
+           	subject.addObserver(new SimpleObserver());
+           	subject.notifyObservers("Expense modified successfully.");
+
+        	
         System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.println("Expense modified successfully.");
     }
 }

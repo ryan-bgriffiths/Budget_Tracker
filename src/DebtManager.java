@@ -44,7 +44,7 @@ public class DebtManager {
         float totalDebt = 0;
         boolean foundActiveDebt = false;
 
-        System.out.println("\n\t╔══════════════════════════════╗");
+        System.out.println("\nt╔══════════════════════════════╗");
         System.out.println("\t║   ****  DEBT PANEL  ****     ║");
         System.out.println("\t╚══════════════════════════════╝\n");
 
@@ -113,9 +113,12 @@ public class DebtManager {
                 status, paymentHistory);
 
         debtList.add(debt);
-
+        
+        // Observer pattern
+        BudgetSubject subject = new BudgetSubject();
+        subject.addObserver(new SimpleObserver());
+        subject.notifyObservers("Debt added successfully.");
         System.out.printf("\n%s\n", "-".repeat(50));
-        System.out.println("Debt added successfully.");
     }
 
     // deleteDebt - Deletes a debt entry
@@ -138,7 +141,10 @@ public class DebtManager {
 
         if (index >= 0 && index < debtList.size()) {
             debtList.remove(index);
-            System.out.println("Debt deleted successfully.");
+         // Observer pattern
+            BudgetSubject subject = new BudgetSubject();
+            subject.addObserver(new SimpleObserver());
+            subject.notifyObservers("Debt deleted successfully.");
         } else {
             System.out.println("Invalid debt number.");
         }
@@ -199,8 +205,12 @@ public class DebtManager {
         int statusChoice = Integer.parseInt(input.nextLine());
 
         debt.status = (statusChoice == 1);
+        // Observer pattern
+        // Creates a subject and notifies observers when a debt is modified
+        BudgetSubject subject = new BudgetSubject();
+        subject.addObserver(new SimpleObserver());
+        subject.notifyObservers("Debt modified successfully.");
 
-        System.out.println("Debt modified successfully.");
     }
 
     // viewPastDebt - Displays inactive debt entries
