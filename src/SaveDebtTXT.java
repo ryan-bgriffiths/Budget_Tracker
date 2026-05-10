@@ -22,13 +22,13 @@ public class SaveDebtTXT {
 
 		// For each expense in the list(expeseList) write data to writer.
 		for (Debt debt : debtList) {
-			writer.println(debt.name);
-			writer.println(debt.principle);
-			writer.println(debt.endDate);
-			writer.println(debt.interestRate);
-			writer.println(debt.compoundOrSimple);
-			writer.println(debt.remainingBalance);
-			writer.println(debt.status);
+			writer.println(debt.getName());
+			writer.println(debt.getPrincipleAmount());
+			writer.println(debt.getDueDate());
+			writer.println(debt.getInterestRate());
+			writer.println(debt.getCompoundOrSimple());
+			writer.println(debt.getRemainingBalance());
+			writer.println(debt.getStatus());
 			writer.println("---");
 		}
 
@@ -55,19 +55,21 @@ public class SaveDebtTXT {
 		String line;
 
 		while ((line = reader.readLine()) != null) {
-			Debt debt = new Debt();
 
-			debt.name = line;
-			debt.principle = Float.parseFloat(reader.readLine());
-			debt.endDate = LocalDate.parse(reader.readLine());
-			debt.interestRate = Float.parseFloat(reader.readLine());
-			debt.compoundOrSimple = Boolean.parseBoolean(reader.readLine());
-			debt.remainingBalance = Float.parseFloat(reader.readLine());
-			debt.status = Boolean.parseBoolean(reader.readLine());
+			String name = line;
+			float principle = Float.parseFloat(reader.readLine());
+			LocalDate dueDate = LocalDate.parse(reader.readLine());
+			float interestRate = Float.parseFloat(reader.readLine());
+			boolean compoundOrSimple = Boolean.parseBoolean(reader.readLine());
+			float remainingBalance = Float.parseFloat(reader.readLine());
+			boolean status = Boolean.parseBoolean(reader.readLine());
 
-			debt.paymentHistory = new LinkedList<>();
 
 			reader.readLine(); // skip "---"
+			
+			Debt debt = new Debt(name, principle, dueDate.getYear(),
+	                dueDate.getMonthValue(), dueDate.getDayOfMonth(), interestRate,
+					 compoundOrSimple,  remainingBalance,  status);
 
 			debtList.add(debt);
 		}

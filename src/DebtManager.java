@@ -55,11 +55,11 @@ public class DebtManager {
 
             if (debt.getStatus() == true) {
                 foundActiveDebt = true;
-                totalDebt += debt.remainingBalance;
+                totalDebt += debt.getRemainingBalance();
 
                 System.out.println("\nDebt #" + (i + 1));
-                System.out.println("Name: " + debt.name);
-                System.out.printf("Total Amount: $%,.2f\n", debt.remainingBalance);
+                System.out.println("Name: " + debt.getName());
+                System.out.printf("Total Amount: $%,.2f\n", debt.getRemainingBalance());
                 System.out.println("Status: Active");
             }
         }
@@ -105,12 +105,11 @@ public class DebtManager {
         LocalDate dueDate = LocalDate.parse(input.nextLine());
 
         boolean status = true;
-        LinkedList<Expense> paymentHistory = new LinkedList<Expense>();
 
         Debt debt = new Debt(name, principle, dueDate.getYear(),
                 dueDate.getMonthValue(), dueDate.getDayOfMonth(),
                 interestRate, compoundOrSimple, remainingBalance,
-                status, paymentHistory);
+                status);
 
         debtList.add(debt);
         
@@ -176,16 +175,16 @@ public class DebtManager {
         Debt debt = debtList.get(index);
 
         System.out.print("Enter new debt name: ");
-        debt.name = input.nextLine();
+        debt.setName(input.nextLine());
 
         System.out.print("Enter new principal amount: ");
-        debt.principle = Float.parseFloat(input.nextLine());
+        debt.setPrinciple(Float.parseFloat(input.nextLine()));
 
         System.out.print("Enter new remaining balance: ");
-        debt.remainingBalance = Float.parseFloat(input.nextLine());
+        debt.setRemainingBalance(Float.parseFloat(input.nextLine()));
 
         System.out.print("Enter new interest rate: ");
-        debt.interestRate = Float.parseFloat(input.nextLine());
+        debt.setInterestRate(Float.parseFloat(input.nextLine()));
 
         System.out.println("Interest Type:");
         System.out.println("1. Simple Interest");
@@ -193,10 +192,12 @@ public class DebtManager {
         System.out.print("Choose (1 or 2): ");
         int interestChoice = Integer.parseInt(input.nextLine());
 
-        debt.compoundOrSimple = interestChoice == 2;
+        debt.setCompoundOrSimple(interestChoice == 2);
 
         System.out.print("Enter new minimum payment due date (YYYY-MM-DD): ");
-        debt.endDate = LocalDate.parse(input.nextLine());
+        
+        LocalDate newDate = LocalDate.parse(input.nextLine());
+        debt.setDueDate(newDate.getYear(), newDate.getMonthValue(), newDate.getDayOfMonth());
 
         System.out.println("Debt Status:");
         System.out.println("1. Active");
@@ -204,7 +205,7 @@ public class DebtManager {
         System.out.print("Choose (1 or 2): ");
         int statusChoice = Integer.parseInt(input.nextLine());
 
-        debt.status = (statusChoice == 1);
+        debt.setStatus((statusChoice == 1));
         // Observer pattern
         // Creates a subject and notifies observers when a debt is modified
         BudgetSubject subject = new BudgetSubject();
@@ -229,8 +230,8 @@ public class DebtManager {
                 foundPastDebt = true;
 
                 System.out.println("\nDebt #" + (i + 1));
-                System.out.println("Name: " + debt.name);
-                System.out.printf("Total Amount: $%,.2f\n", debt.remainingBalance);
+                System.out.println("Name: " + debt.getName());
+                System.out.printf("Total Amount: $%,.2f\n", debt.getRemainingBalance());
                 System.out.println("Status: Inactive");
             }
         }
@@ -264,12 +265,12 @@ public class DebtManager {
         Debt debt = debtList.get(index);
 
         System.out.println("\n===== DEBT CASE DETAILS =====");
-        System.out.println("Name: " + debt.name);
-        System.out.printf("Principal Amount: $%,.2f\n", debt.principle);
-        System.out.printf("Remaining Balance: $%,.2f\n", debt.remainingBalance);
-        System.out.printf("Interest Rate: %.2f%%\n", debt.interestRate);
-        System.out.println("Interest Type: " + (debt.compoundOrSimple ? "Compound" : "Simple"));
-        System.out.println("Next Payment Due Date: " + debt.endDate);
+        System.out.println("Name: " + debt.getName());
+        System.out.printf("Principal Amount: $%,.2f\n", debt.getPrincipleAmount());
+        System.out.printf("Remaining Balance: $%,.2f\n", debt.getRemainingBalance());
+        System.out.printf("Interest Rate: %.2f%%\n", debt.getInterestRate());
+        System.out.println("Interest Type: " + (debt.getCompoundOrSimple() ? "Compound" : "Simple"));
+        System.out.println("Next Payment Due Date: " + debt.getDueDate());
         System.out.println("Status: " + (debt.getStatus() ? "Active" : "Inactive"));
     }
 
@@ -287,8 +288,8 @@ public class DebtManager {
             Debt debt = debtList.get(i);
 
             System.out.println("\nDebt #" + (i + 1));
-            System.out.println("Name: " + debt.name);
-            System.out.printf("Total Amount: $%,.2f\n", debt.remainingBalance);
+            System.out.println("Name: " + debt.getName());
+            System.out.printf("Total Amount: $%,.2f\n", debt.getRemainingBalance());
             System.out.println("Status: " + (debt.getStatus() ? "Active" : "Inactive"));
         }
     }

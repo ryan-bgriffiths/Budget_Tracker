@@ -1,6 +1,5 @@
 
 
-//TODO: import all dependencies
 //import java.time.Month;
 //import java.time.format.TextStyle;
 //import java.util.Locale;
@@ -204,7 +203,7 @@ public class MonthlyBreakdown {
 		
 		//Displaying:	<Name> | Principal: <Amount> | Progress:...
 		System.out.print("\t" + currentDebt.getName() + " | Principal: $" + 
-			currentDebt.getPrincipalAmount() + " | Progress: ");
+			currentDebt.getPrincipleAmount() + " | Progress: ");
 		
 		//Displaying: 								 			   ...<Progress>% Paid Off
 		if(currentDebt.getStatus() == false)	//Check if debt is inactive

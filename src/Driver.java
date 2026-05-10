@@ -19,7 +19,7 @@ public class Driver
 	private static Month[] monthNames;
 	private static LinkedList<Expense>[] allMonths;
 	private static Scanner input;
-	private static LinkedList<Goal> goalList;
+	private static LinkedList<Goal> goalList = new LinkedList<Goal>();
 	private static LinkedList<Debt> debtList;
 	private static MonthlyBreakdown currentBreakdown;
 	
@@ -53,9 +53,9 @@ public class Driver
 		SaveAsTXT.loadFromFile("DecemberExpenses.txt")
 		};
 		
-		goalList = SaveGoalTXT.loadFromFile("MasterGoalList");
+		goalList = SaveGoalTXT.loadFromFile("MasterGoalList");		
 		debtList = SaveDebtTXT.loadFromFile("MasterDebtList");
-		
+				
 		int currentMonthIndex = LocalDate.now().getMonthValue() - 1;
         int prevMonthIndex = (currentMonthIndex == 0) ? 11 : currentMonthIndex - 1;
         
@@ -115,8 +115,6 @@ public class Driver
         new SortByDateStrategy().sort(allMonths[currentMonthIndex]);
         
 		input = new Scanner(System.in);
-		goalList = new LinkedList<Goal>();
-		debtList = new LinkedList<Debt>();
 		currentBreakdown = 
 				new MonthlyBreakdown(
 						currentMonth.getDisplayName(TextStyle.FULL, Locale.US), 
@@ -297,6 +295,7 @@ public class Driver
 	{
 		setup();
 		int userChoice;
+		
 
 		// call start menu
 		do
@@ -309,6 +308,7 @@ public class Driver
 		case 1:
 			// View the monthly expenses breakdown, if there are none display alert w/ $0 amount.
 			System.out.printf("\n%s\n","=".repeat(50));	
+			
 			
 			// if 0 standard return, if non-0 change to month number
 			int status;
@@ -349,7 +349,6 @@ public class Driver
 			System.out.printf("\n%s\n","=".repeat(50));
 			System.out.printf("\n%s\n","Entering goals page...");
 			GoalUi.goalMenu(input, goalList);
-			SaveGoalTXT.saveToFile(goalList,  "MasterDebtList");
 			break;
 		
 		case 4:

@@ -132,6 +132,7 @@ public class GoalUi {
             } catch (DateTimeParseException e) {
                 System.out.println("[!] ERROR: Use YYYY-MM-DD format. Try again.");
             }
+            
         }
 
         //Get amount
@@ -167,6 +168,8 @@ public class GoalUi {
 		sortByDate(goals);
 
 		System.out.printf("\n%s\n", "-".repeat(50));
+		
+		SaveGoalTXT.saveToFile(goals,  "MasterGoalList");
 	}
 	
 	public static void modifyGoal(Scanner inFile, LinkedList<Goal> goals) { //Allows the user to modify goals from the list

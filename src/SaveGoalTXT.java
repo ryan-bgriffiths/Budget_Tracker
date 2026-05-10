@@ -25,6 +25,7 @@ public class SaveGoalTXT {
 			writer.println(goal.getAmount());
 			writer.println(goal.getName());
 			writer.println(goal.getStartDate());
+			writer.println(goal.getEndDate());
 			writer.println(goal.getDescription());
 			writer.println("---");
 		}
@@ -62,13 +63,13 @@ public class SaveGoalTXT {
 					endDate.getMonthValue(), endDate.getDayOfMonth(),  name, description, amount);
 
 			goals.add(goal);
+			
 		}
 
-		reader.close();
 		} catch (IOException e) {
 			System.out.println("Error reading file: " + fileName);
 		}
-		
+
 		return goals;
 	}
 }
