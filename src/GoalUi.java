@@ -102,7 +102,7 @@ public class GoalUi {
         LocalDate parsedEndDate = null;
         
         while (parsedEndDate == null) {
-            System.out.print("Enter date (YYYY-MM-DD), cannot be the same date as starting: ");
+            System.out.print("Enter end date (YYYY-MM-DD), cannot be the same date as starting: ");
             String dateInput = inFile.nextLine().trim();
 
             // if user pressed enter with no input
@@ -115,8 +115,8 @@ public class GoalUi {
                 LocalDate candidate = LocalDate.parse(dateInput);
 
                 // reject dates more than one year in the past
-                if (candidate.isBefore(oneYearAgo)) {
-                    System.out.println("[!] ERROR: Date cannot be more than one year ago.");
+                if (candidate.isBefore(parsedStartDate)) {
+                    System.out.println("[!] ERROR: Date cannot be set before starting.");
                     continue; // go back to top of loop and ask again
                 }
 
