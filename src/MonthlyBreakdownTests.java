@@ -18,8 +18,11 @@ class MonthlyBreakdownTests {
 	// declared as global so can be used throughout testing
 	MonthlyBreakdown jan;
 	MonthlyBreakdown may;
-	LinkedList<Debt> debtStub;
-	LinkedList<Goal> goalStub;
+	MonthlyBreakdown jun;
+	LinkedList<Debt> debtList;
+	LinkedList<Goal> goalList;
+	LinkedList<Debt> debtStub = new LinkedList<Debt>();
+	LinkedList<Goal> goalStub = new LinkedList<Goal>();
 	LinkedList<Expense> expenseList;
 	
 	@BeforeEach
@@ -31,6 +34,7 @@ class MonthlyBreakdownTests {
 		// test constructors
 		expenseList = new LinkedList<Expense>();
 
+		// set up expense list
 		Expense expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
 		expenseList.add(expenseNode);
 		expenseNode = new Expense("Hulu", 3.99f, 2026, 04, 29, true);
@@ -38,11 +42,27 @@ class MonthlyBreakdownTests {
 		expenseNode = new Expense("Disney+", 9.99f, 2026, 04, 28, true);
 		expenseList.add(expenseNode);
 		
-		goalStub = new LinkedList<Goal>();	//<<TO DO>> actually build the list once class made
-		debtStub = new LinkedList<Debt>();	//<<TO DO>> actually build the list once class made
+		// set up goal list
+		goalList = new LinkedList<Goal>();
+		Goal goalNode = new Goal(true, 2026, 05, 14, 2026, 06, 29, "Air travel", "fly to hawaii", 2000f);
+		goalList.add(goalNode);
+		goalNode = new Goal(true, 2026, 05, 14, 2026, 06, 29, "Billiard", "get billiard table", 200f);
+		goalList.add(goalNode);
+		goalNode = new Goal (true, 2026, 05, 14, 2026, 06, 29, "Crossfit", "get crossfit class", 2000f);
+		goalList.add(goalNode);
+		
+		// set up debt list
+		debtList = new LinkedList<Debt>();
+		Debt debtNode = new Debt("Car", 7000f, 2028, 06, 29, 0.05f, true, 7000f, true);
+		debtList.add(debtNode);
+		debtNode = new Debt("House", 14000f, 2026, 06, 29, 0.05f, true, 0f, false);
+		debtList.add(debtNode);
+		debtNode = new Debt("College", 10000f, 2027, 06, 29, 0.05f, false, 7000f, true);
+		debtList.add(debtNode);
 		
 		jan = new MonthlyBreakdown("January", 2026);
 		may = new MonthlyBreakdown("May", 2026, expenseList, goalStub, debtStub);
+		jun = new MonthlyBreakdown("June", 2026, expenseList, goalList, debtList);
 	}
 	
 	@Test
@@ -72,20 +92,18 @@ class MonthlyBreakdownTests {
 	public void testGetGoals()
 	{
 		assertEquals(0, jan.getGoals().size());
-		/* << TO DO ONCE CLASSES ARE CREATED >>
-		 * assertEquals(goalStub.get(0), may.getGoals().get(0));
-		assertEquals(goalStub.get(0), may.getGoals().get(0));
-		assertEquals(goalStub.get(0), may.getGoals().get(0));*/
+		assertEquals(goalList.get(0), jun.getGoals().get(0));
+		assertEquals(goalList.get(0), jun.getGoals().get(0));
+		assertEquals(goalList.get(0), jun.getGoals().get(0));
 	}
 	
 	@Test
 	public void testGetDebts()
 	{
 		assertEquals(0, jan.getDebts().size());
-		/* << TO DO ONCE CLASSES ARE CREATED >>
-		 * assertEquals(debtStub.get(0), may.getDebts().get(0));
-		assertEquals(debtStub.get(0), may.getDebts().get(0));
-		assertEquals(debtStub.get(0), may.getDebts().get(0));*/
+		assertEquals(debtList.get(0), jun.getDebts().get(0));
+		assertEquals(debtList.get(0), jun.getDebts().get(0));
+		assertEquals(debtList.get(0), jun.getDebts().get(0));
 	}
 	
 	@Test
@@ -124,7 +142,6 @@ class MonthlyBreakdownTests {
 		assertEquals(expected, outputCaptor.toString());
 		outputCaptor.reset();
 		
-		//<< TO DO FIX IN MONTHLY BREAKDOWN IT SEEMS TO HIT END OF LIST EACH TIME EVEN IF LIST IS LARGER>>
 		// test case 2
 		// setup and test the input
 				input = "2\n1\n"; 
@@ -209,26 +226,38 @@ class MonthlyBreakdownTests {
 	@Test
 	public void testDisplayMonthlyBreakdown()
 	{
-		// if no expenses
-		String expected = "\n--------------------------------------------------\n";
-		expected += "              MONTHLY BREAKDOWN\n";
-		expected += "--------------------------------------------------\n";
+		
+		System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+		
+		// if no expenses & no goals
+		String expected = outputCaptor.toString();
 		expected += "Month: January 2026\n";
 		expected += "[!] Alert: No Expenses Have Been Entered.\n";
 		expected += "Total Expenses: $0.00\n";
+		expected += "\n\t  1. Return to Home Page\n" + "\t  2. List next 5 items\n" + "\t  3. Change Month\n";
+		expected += "Please enter a selection (1-3) or '0' to exit: ";
+		outputCaptor.reset();
 		
+		String input = "0\n"; 
+		in = new ByteArrayInputStream(input.getBytes());
+		inFile = new Scanner(in);
 		assertEquals(0, jan.displayMonthlyBreakdown(inFile));
 		assertEquals(expected, outputCaptor.toString());
 		outputCaptor.reset();
 		
-		// if less than 5 expenses
-		expected = "\n--------------------------------------------------\n";
-		expected += "              MONTHLY BREAKDOWN\n";
-		expected += "--------------------------------------------------\n";
+		// if less than 5 expenses & no goals
+		System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+        
+		expected = outputCaptor.toString();
 		expected += "Month: May 2026\n";
 		expected += "Total Expenses: $28.97\n\n";
 		expected += "Expenses (by item):\n";
 		expected += "Name       Amount     Date         Paid      \n";
+		outputCaptor.reset();
 		
 		for (int i = 0; i < expenseList.size(); i++)
 		{
@@ -237,48 +266,8 @@ class MonthlyBreakdownTests {
 			outputCaptor.reset();
 		}
 		
-		expected += "<<END OF EXPENSE LIST>>\n";
+		expected += "\n\n<<END OF EXPENSE LIST>>\n\n";
 		
-		expected += "Goals:\n" + "[!] Alert - No goals added.\n\n";
-		expected += "Debts:\n" + "[!] Alert - No debts added.\n\n";
-		
-		expected += "\n\t  1. Return to Home Page\n" + "\t  2. List next 5 items\n" + "\t  3. Change Month\n";
-		expected += "Please enter a selection (1-3) or '0' to exit: ";
-		
-		String input = "0\n"; 
-		in = new ByteArrayInputStream(input.getBytes());
-		inFile = new Scanner(in);
-		
-		assertEquals(0, may.displayMonthlyBreakdown(inFile));
-		assertEquals(expected, outputCaptor.toString());
-		outputCaptor.reset();
-
-		
-		// if more than 5 expenses
-		// expand expense case to be 11 items long
-		Expense expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
-		expenseList.add(expenseNode);
-		expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
-		expenseList.add(expenseNode);
-		expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
-		expenseList.add(expenseNode);
-
-		
-		expected = "\n--------------------------------------------------\n";
-		expected += "              MONTHLY BREAKDOWN\n";
-		expected += "--------------------------------------------------\n";
-		expected += "Month: May 2026\n";
-		expected += "Total Expenses: $73.94\n\n";
-		expected += "Expenses (by item):\n";
-		expected += "Name       Amount     Date         Paid      \n";
-		
-		for (int i = 0; i < 5; i++)
-		{
-			expenseList.get(i).listExpense();
-			expected += outputCaptor.toString();
-			outputCaptor.reset();
-		}
-				
 		expected += "Goals:\n" + "[!] Alert - No goals added.\n\n";
 		expected += "Debts:\n" + "[!] Alert - No debts added.\n\n";
 		
@@ -293,12 +282,81 @@ class MonthlyBreakdownTests {
 		assertEquals(expected, outputCaptor.toString());
 		outputCaptor.reset();
 
+		
+		// if more than 5 expenses & list with goals/debts
+		// expand expense case to be 11 items long
+		Expense expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
+		expenseList.add(expenseNode);
+		expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
+		expenseList.add(expenseNode);
+		expenseNode = new Expense("Netlfix", 14.99f, 2026, 04, 30, true);
+		expenseList.add(expenseNode);
+
+		
+		System.out.println("\t╔══════════════════════════════╗");
+        System.out.println("\t║ ^^^^ MONTHLY BREAKDOWN ^^^^  ║");
+        System.out.println("\t╚══════════════════════════════╝\n");
+        
+		expected = outputCaptor.toString();
+		expected += "Month: June 2026\n";
+		expected += "Total Expenses: $73.94\n\n";
+		expected += "Expenses (by item):\n";
+		expected += "Name       Amount     Date         Paid      \n";
+		outputCaptor.reset();
+		
+		for (int i = 0; i < 5; i++)
+		{
+			expenseList.get(i).listExpense();
+			expected += outputCaptor.toString();
+			outputCaptor.reset();
+		}
+		
+		// ADD DISPLAY UPDATES PORTION		
+
+		
+		expected += "\n\t  1. Return to Home Page\n" + "\t  2. List next 5 items\n" + "\t  3. Change Month\n";
+		expected += "Please enter a selection (1-3) or '0' to exit: ";
+		
+		input = "0\n"; 
+		in = new ByteArrayInputStream(input.getBytes());
+		inFile = new Scanner(in);
+		
+		assertEquals(0, jun.displayMonthlyBreakdown(inFile));
+		assertEquals(expected, outputCaptor.toString());
+		outputCaptor.reset();
+
 	}
 	
-	//<< TO DO WHEN ALL CLASSES FINISHED>>
 	@Test
 	public void testProgressToGoal()
 	{
+		// if complete is false
+		String expected = "\tAir travel | Progress: 0.00% Complete\n";
+		
+		jun.displayProgressToGoal(goalList.get(0));
+		
+		assertEquals(expected, outputCaptor.toString());
+		outputCaptor.reset();
+		
+		// if progress made
+		expected = "\tAir travel | Progress: 50.00% Complete\n";
+
+		goalList.get(0).setProgress(1000f);
+		
+		jun.displayProgressToGoal(goalList.get(0));
+		
+		assertEquals(expected, outputCaptor.toString());
+		outputCaptor.reset();
+		
+		// if complete
+				expected = "\tAir travel | Progress: Complete\n";
+
+				goalList.get(0).setComplete(true);
+				
+				jun.displayProgressToGoal(goalList.get(0));
+				
+				assertEquals(expected, outputCaptor.toString());
+				outputCaptor.reset();
 	}
 	
 	//<< TO DO WHEN ALL CLASSES FINISHED>>

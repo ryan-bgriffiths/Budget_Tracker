@@ -99,7 +99,7 @@ public class MonthlyBreakdown {
 					return 0;
 				
 				case 2:
-					System.out.printf("\nExpenses (by item):\n");
+					System.out.printf("Expenses (by item):\n");
 					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 					
 					for(int i = 0; i < 10; i++) {
@@ -140,15 +140,15 @@ public class MonthlyBreakdown {
 		
 		//Display alert msg if no expenses have been entered.
 		if (monthlyExpenses.isEmpty()) {
-			System.out.println("[!] Alert: No Expenses Have Been Entered.");
-			System.out.println("Total Expenses: $0.00");
+			System.out.printf("[!] Alert: No Expenses Have Been Entered.\n");
+			System.out.printf("Total Expenses: $0.00\n");
 			return monthlyBreakdownMenu(inFile, index);	
 		}
 		
 		System.out.printf("Total Expenses: $%.2f\n\n", getTotalExpenses());
 		
 		// Formatted headline
-		System.out.println("Expenses (by item):");
+		System.out.printf("Expenses (by item):\n");
 		System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 		
 		//For each expense in the list(monthlyExpenses),
@@ -160,7 +160,7 @@ public class MonthlyBreakdown {
 			}
 			else
 			{
-				System.out.println("\n<<END OF EXPENSE LIST>>\n");
+				System.out.printf("\n\n<<END OF EXPENSE LIST>>\n\n");
 				break;
 			}
 		}
@@ -188,7 +188,7 @@ public class MonthlyBreakdown {
 		if(currentGoal.isComplete() == true)	//Check if goal is completed
 			System.out.print("Complete\n");
 		else {									//Print progress
-			System.out.printf("%.2f", currentGoal.getProgress());	//Format printed float, round to 2 decimal places
+			System.out.printf("%.2f", (currentGoal.getProgress())/(currentGoal.getAmount())*100);	//Format printed float, round to 2 decimal places
 			System.out.print("% Complete\n");
 		}
 	}

@@ -28,7 +28,7 @@ public class Goal {
     		float amount) {
     	this.savingsOrBudget = savingsOrBudget;
     	startDate = LocalDate.of(startYear, startMonth, startDay);
-    	endDate = LocalDate.of(endYear, startMonth, endMonth);
+    	endDate = LocalDate.of(endYear, endMonth, endDay);
     	this.name = name;
     	this.description = description;
     	this.amount = amount;

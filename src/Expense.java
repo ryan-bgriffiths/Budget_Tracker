@@ -45,8 +45,8 @@ public class Expense {
 		this.amount = amount;
 		this.date = LocalDate.of(year, month, day);
 		this.paid = paid;
-		this.isIncome = false;
-        this.isRecurring = false;
+		this.isIncome = isIncome;
+        this.isRecurring = isRecurring;
 	}
 	
 	//Getter methods
