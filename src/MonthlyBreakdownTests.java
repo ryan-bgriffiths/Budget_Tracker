@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+// << TEST CASES DONE>>
+
 class MonthlyBreakdownTests {
 
 	// declare the input/output stream captor to test printing and the standard out to reset it
@@ -162,6 +164,7 @@ class MonthlyBreakdownTests {
 				expected += "\n\t  1. Return to Home Page\n" + "\t  2. List next 5 items\n" + "\t  3. Change Month\n";
 				expected += "Please enter a selection (1-3) or '0' to exit: ";
 				
+				
 				assertEquals(0, may.monthlyBreakdownMenu(inFile, 0));
 				assertEquals(expected, outputCaptor.toString());
 				outputCaptor.reset();
@@ -311,8 +314,21 @@ class MonthlyBreakdownTests {
 			outputCaptor.reset();
 		}
 		
-		// ADD DISPLAY UPDATES PORTION		
+		expected += "Goals:\n";
+		
+		expected += "1.)\tAir travel | Progress: 0.00% Complete\n";
+		expected += "2.)\tBilliard | Progress: 0.00% Complete\n";
+		expected += "3.)\tCrossfit | Progress: 0.00% Complete\n";
+		
+		expected += "Debts:\n";
+		
+		expected += "\tTotal Debt -- $14000.00\n";
 
+		expected += "1.)\tCar | Principal: $7000.0 | Progress: 0.00% Paid Off\n";
+		expected += "2.)\tHouse | Principal: $14000.0 | Progress: 100% Paid Off\n";
+		expected += "3.)\tCollege | Principal: $10000.0 | Progress: 30.00% Paid Off\n";
+
+		
 		
 		expected += "\n\t  1. Return to Home Page\n" + "\t  2. List next 5 items\n" + "\t  3. Change Month\n";
 		expected += "Please enter a selection (1-3) or '0' to exit: ";
@@ -359,23 +375,75 @@ class MonthlyBreakdownTests {
 				outputCaptor.reset();
 	}
 	
-	//<< TO DO WHEN ALL CLASSES FINISHED>>
 	@Test
 	public void testProgressToDebt()
 	{
+		// if complete is false
+				String expected = "\tCar | Principal: $7000.0 | Progress: 0.00% Paid Off\n";
+				Debt debtNode = new Debt("Car", 7000f, 2028, 06, 29, 0.05f, true, 7000f, true);
+
+				jun.displayProgressOfDebt(debtList.get(0));
+				
+				assertEquals(expected, outputCaptor.toString());
+				outputCaptor.reset();
+				
+				// if progress made
+				expected = "\tCar | Principal: $7000.0 | Progress: 50.00% Paid Off\n";
+
+				debtList.get(0).setRemainingBalance(3500f);
+				
+				jun.displayProgressOfDebt(debtList.get(0));
+				
+				assertEquals(expected, outputCaptor.toString());
+				outputCaptor.reset();
+				
+				// if complete
+				expected = "\tCar | Principal: $7000.0 | Progress: 100% Paid Off\n";
+
+						debtList.get(0).setRemainingBalance(0f);
+						
+						jun.displayProgressOfDebt(debtList.get(0));
+						
+						assertEquals(expected, outputCaptor.toString());
+						outputCaptor.reset();
 		
 	}
 	
-	//<< TO DO WHEN ALL CLASSES FINISHED>>
 	@Test
 	public void testDisplayUpdates()
 	{
 		// if no goals or debts
-		String expected = "Goals:\n" + "[!] Alert - No goals added.\n";
-		expected += "Debts:\n" + "[!] Alert - No debts added.\n";
+		String expected = "Goals:\n" + "[!] Alert - No goals added.\n\n";
+		expected += "Debts:\n" + "[!] Alert - No debts added.\n\n";
 		
-		//<< TO DO WHEN CLASSES ARE FINISHED  >>
+		jan.displayUpdates();
+		
+		assertEquals(expected, outputCaptor.toString());
+		outputCaptor.reset();
+		
+		
+		// if goals and debts
+		expected = "Goals:\n";
+		
+		expected += "1.)\tAir travel | Progress: 0.00% Complete\n";
+		expected += "2.)\tBilliard | Progress: 0.00% Complete\n";
+		expected += "3.)\tCrossfit | Progress: 0.00% Complete\n";
+		
+		expected += "Debts:\n";
+		
+		expected += "\tTotal Debt -- $14000.00\n";
+
+		expected += "1.)\tCar | Principal: $7000.0 | Progress: 0.00% Paid Off\n";
+		expected += "2.)\tHouse | Principal: $14000.0 | Progress: 100% Paid Off\n";
+		expected += "3.)\tCollege | Principal: $10000.0 | Progress: 30.00% Paid Off\n";
+
+		
+		jun.displayUpdates();
+		
+		assertEquals(expected, outputCaptor.toString());
+		outputCaptor.reset();
 	}
+	
 	
 	@AfterEach
 	public void reset()

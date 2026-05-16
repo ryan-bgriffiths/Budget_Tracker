@@ -99,7 +99,7 @@ public class MonthlyBreakdown {
 					return 0;
 				
 				case 2:
-					System.out.printf("Expenses (by item):\n");
+					System.out.printf("\nExpenses (by item):\n");
 					System.out.printf("%-10s %-10s %-12s %-10s\n", "Name", "Amount", "Date", "Paid");
 					
 					for(int i = 0; i < 10; i++) {

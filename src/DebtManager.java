@@ -229,15 +229,15 @@ public class DebtManager {
             if (debt.getStatus() == false) {
                 foundPastDebt = true;
 
-                System.out.println("\nDebt #" + (i + 1));
-                System.out.println("Name: " + debt.getName());
+                System.out.printf("\nDebt #" + (i + 1) + "\n");
+                System.out.printf("Name: " + debt.getName() + "\n");
                 System.out.printf("Total Amount: $%,.2f\n", debt.getRemainingBalance());
-                System.out.println("Status: Inactive");
+                System.out.printf("Status: Inactive\n");
             }
         }
 
         if (!foundPastDebt) {
-            System.out.println("No past debt entries found.");
+            System.out.printf("No past debt entries found.\n");
         }
     }
 
@@ -258,39 +258,39 @@ public class DebtManager {
         int index = Integer.parseInt(input.nextLine()) - 1;
 
         if (index < 0 || index >= debtList.size()) {
-            System.out.println("Invalid debt number.");
+            System.out.printf("Invalid debt number.\n");
             return;
         }
 
         Debt debt = debtList.get(index);
 
-        System.out.println("\n===== DEBT CASE DETAILS =====");
-        System.out.println("Name: " + debt.getName());
+        System.out.printf("\n===== DEBT CASE DETAILS =====\n");
+        System.out.printf("Name: " + debt.getName() + "\n");
         System.out.printf("Principal Amount: $%,.2f\n", debt.getPrincipleAmount());
         System.out.printf("Remaining Balance: $%,.2f\n", debt.getRemainingBalance());
         System.out.printf("Interest Rate: %.2f%%\n", debt.getInterestRate());
-        System.out.println("Interest Type: " + (debt.getCompoundOrSimple() ? "Compound" : "Simple"));
-        System.out.println("Next Payment Due Date: " + debt.getDueDate());
-        System.out.println("Status: " + (debt.getStatus() ? "Active" : "Inactive"));
+        System.out.printf("Interest Type: " + (debt.getCompoundOrSimple() ? "Compound" : "Simple") +"\n");
+        System.out.printf("Next Payment Due Date: " + debt.getDueDate() +"\n");
+        System.out.printf("Status: " + (debt.getStatus() ? "Active" : "Inactive") + "\n");
     }
 
     // displayAllDebts - Displays all debt entries
     // LinkedList<Debt>; void
     public static void displayAllDebts(LinkedList<Debt> debtList) {
-        System.out.println("\n===== ALL DEBT ENTRIES =====");
+        System.out.printf("\n===== ALL DEBT ENTRIES =====\n");
 
         if (debtList.isEmpty()) {
-            System.out.println("No debt entries found.");
+            System.out.print("No debt entries found.\n");
             return;
         }
 
         for (int i = 0; i < debtList.size(); i++) {
             Debt debt = debtList.get(i);
 
-            System.out.println("\nDebt #" + (i + 1));
-            System.out.println("Name: " + debt.getName());
+            System.out.printf("\nDebt #" + (i + 1) + "\n");
+            System.out.printf("Name: " + debt.getName() + "\n");
             System.out.printf("Total Amount: $%,.2f\n", debt.getRemainingBalance());
-            System.out.println("Status: " + (debt.getStatus() ? "Active" : "Inactive"));
+            System.out.printf("Status: " + (debt.getStatus() ? "Active" : "Inactive") + "\n");
         }
     }
 }
